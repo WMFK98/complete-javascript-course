@@ -60,54 +60,95 @@
 // both teams have the same score and both have a score greater or equal 100
 // points. Otherwise, no team wins the trophy
 
-// § Data 1: Dolphins score 96, 108 and 89. Koalas score 88, 91 and 110
+// // § Data 1: Dolphins score 96, 108 and 89. Koalas score 88, 91 and 110
 
-let Dolphins = 96 +108+89;
-let Koalas = 88 +91+110;
-let dolphinsAverage = Dolphins/3;
-let KoalasAverage = Koalas/3;
-console.log(dolphinsAverage,KoalasAverage);
-if(dolphinsAverage < 100 && KoalasAverage <100)
-console.log("No one WN because point so low!!");
-else if(dolphinsAverage===KoalasAverage)
-console.log("Draw");
-else if(dolphinsAverage>KoalasAverage)
-console.log('Dolphins is WN ');
-else
-console.log('Koalas is WN');
-
-
-// § Data Bonus 1: Dolphins score 97, 112 and 101. Koalas score 109, 95 and 123
+// let Dolphins = 96 +108+89;
+// let Koalas = 88 +91+110;
+// let dolphinsAverage = Dolphins/3;
+// let KoalasAverage = Koalas/3;
+// console.log(dolphinsAverage,KoalasAverage);
+// if(dolphinsAverage < 100 && KoalasAverage <100)
+// console.log("No one WN because point so low!!");
+// else if(dolphinsAverage===KoalasAverage)
+// console.log("Draw");
+// else if(dolphinsAverage>KoalasAverage)
+// console.log('Dolphins is WN ');
+// else
+// console.log('Koalas is WN');
 
 
-Dolphins = 97 +112+101;
-Koalas = 109 +95+123;
-dolphinsAverage = Dolphins/3;
-KoalasAverage = Koalas/3;
+// // § Data Bonus 1: Dolphins score 97, 112 and 101. Koalas score 109, 95 and 123
 
-console.log(dolphinsAverage,KoalasAverage);
-if(dolphinsAverage < 100 && KoalasAverage <100)
-console.log("No one WN because point so low!!");
-else if(dolphinsAverage===KoalasAverage)
-console.log("Draw");
-else if(dolphinsAverage>KoalasAverage)
-console.log('Dolphins is WN ');
-else
-console.log('Koalas is WN');
 
-// § Data Bonus 2: Dolphins score 97, 112 and 101. Koalas score 109, 95 and 106
+// Dolphins = 97 +112+101;
+// Koalas = 109 +95+123;
+// dolphinsAverage = Dolphins/3;
+// KoalasAverage = Koalas/3;
 
-Dolphins = 97 +112+101;
-Koalas = 109 +95+106;
-dolphinsAverage = Dolphins/3;
-KoalasAverage = Koalas/3;
+// console.log(dolphinsAverage,KoalasAverage);
+// if(dolphinsAverage < 100 && KoalasAverage <100)
+// console.log("No one WN because point so low!!");
+// else if(dolphinsAverage===KoalasAverage)
+// console.log("Draw");
+// else if(dolphinsAverage>KoalasAverage)
+// console.log('Dolphins is WN ');
+// else
+// console.log('Koalas is WN');
 
-console.log(dolphinsAverage,KoalasAverage);
-if(dolphinsAverage < 100 && KoalasAverage <100)
-console.log("No one WN because point so low!!");
-else if(dolphinsAverage===KoalasAverage)
-console.log("Draw");
-else if(dolphinsAverage>KoalasAverage)
-console.log('Dolphins is WN ');
-else
-console.log('Koalas is WN');
+// // § Data Bonus 2: Dolphins score 97, 112 and 101. Koalas score 109, 95 and 106
+
+// Dolphins = 97 +112+101;
+// Koalas = 109 +95+106;
+// dolphinsAverage = Dolphins/3;
+// KoalasAverage = Koalas/3;
+
+// console.log(dolphinsAverage,KoalasAverage);
+// if(dolphinsAverage < 100 && KoalasAverage <100)
+// console.log("No one WN because point so low!!");
+// else if(dolphinsAverage===KoalasAverage)
+// console.log("Draw");
+// else if(dolphinsAverage>KoalasAverage)
+// console.log('Dolphins is WN ');
+// else
+// console.log('Koalas is WN');
+
+
+//CH4==============================================================================================================
+
+// Steven wants to build a very simple tip calculator for whenever he goes eating in a
+// restaurant. In his country, it's usual to tip 15% if the bill value is between 50 and
+// 300. If the value is different, the tip is 20%.
+// Your tasks:
+// 1. Calculate the tip, depending on the bill value. Create a variable called 'tip' for
+// this. It's not allowed to use an if/else statement � (If it's easier for you, you can
+// start with an if/else statement, and then try to convert it to a ternary
+// operator!)
+// 2. Print a string to the console containing the bill value, the tip, and the final value
+// (bill + tip). Example: “The bill was 275, the tip was 41.25, and the total value
+// 316.25”
+// Test data:
+// § Data 1: Test for bill values 275, 40 and 430
+// Hints:
+// § To calculate 20% of a value, simply multiply it by 20/100 = 0.2
+// § Value X is between 50 and 300, if it's >= 50 && <= 300
+
+
+let value = 275;
+let tip = value >= 50 && value <= 300 ? value * (0.15) : value * (0.20);
+let total = value + tip;
+console.log(`The bill was ${value}, the tip was ${tip}, and the total value
+${total}`);
+
+
+value = 40;
+tip = value >= 50 && value <= 300 ? value * (0.15) : value * (0.20);
+total = value + tip;
+console.log(`The bill was ${value}, the tip was ${tip}, and the total value
+${total}`);
+
+
+value = 430;
+tip = value >= 50 && value <= 300 ? value * (0.15) : value * (0.20);
+total = value + tip;
+console.log(`The bill was ${value}, the tip was ${tip}, and the total value
+${total}`);
