@@ -91,9 +91,9 @@ console.log(z === window.z);
 
 ///////////////////////////////////////
 // The this Keyword in Practice
-console.log(this);
-
-const calcAge = function (birthYear) {
+console.log(this); 
+//function => DON'T HAVE THIS KEYWORD
+const calcAge = function (birthYear) { 
   console.log(2037 - birthYear);
   console.log(this);
 };
@@ -230,4 +230,3 @@ jessicaCopy.family.push('John');
 console.log('Before marriage:', jessica2);
 console.log('After marriage: ', jessicaCopy);
 */
-
