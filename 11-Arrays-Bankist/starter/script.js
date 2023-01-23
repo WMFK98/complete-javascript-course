@@ -61,10 +61,13 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
+  //ตั้งsortเป็นแบบเปิดปิด
+
   containerMovements.innerHTML = ''; //ลบทุดอย่างใน container นั้น เหมือนเป็นการเขียนทับเช่น old x= 5 /new x='hi'
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements; //slice() เพื่อกันไม่ให้soryทำการกลายพันธุ์movementsของเรา
   //ส่วนประวัติการเงิน
-  movements.forEach(function (mov, i) {
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal'; //เช็ค ว่าฝากหรือถอน
     const html = `<div class="movements__row">
     <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
@@ -194,6 +197,12 @@ btnLoan.addEventListener('click', function (e) {
     updateUI(currentAccount);
   }
   inputLoanAmount.value = '';
+});
+let sorted = false; //ต้องมีตัวเก็บสถานะว่าตอนนั้นกำลังปิดหรือเปิดอยู่
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault;
+  sorted = !sorted; // ทำแบบนี้เพื่อที่เวลาเรียกใช้จะได้สลับได้ ทุกครั้งที่กด
+  displayMovements(currentAccount.movements, sorted);
 });
 
 /////////////////////////////////////////////////
@@ -477,18 +486,221 @@ const x = arrDeep.flat(2); //ทำให้ array ทุกชั้นเท�
 console.log(x);
 //test ยอดทั้งหมดรวมกัน
 const all = accounts
-  .flatMap(acc => acc.movements) // map and flat
+  .flatMap(acc => acc.movements) // map and flat //แต่ทำให้แค่ 1 ชั้น
   .reduce((acc, mov) => acc + mov);
 console.log(all);
 
 //Sorting Arrays ================================================
-const owners = ['jonas','Zach','Adam','Martha']
-console.log(owners.sort());//เรียงแค่ตัวหนังสือ
-console.log(owners);
+const owners = ['jonas', 'Zach', 'Adam', 'Martha'];
+console.log(owners.sort()); //เรียงแค่ตัวหนังสือ
+console.log(owners); //กลายพันได้
 
-
+console.log(movements); //defalut ของสิ่งนี้คือแปลงทุกตั้วเเป็น String แล้วค่อยเรียง
+movements.sort();
 console.log(movements);
 
-movements.sort((a,b)={
+// movements.sort((a, b) => {
+//   //เรียงค่ามากไปน้อย
+//   //2 ค่าต่อเนื่อง
+//   //น้อยกว่าศูนย์คือจะสลับตำแหน่ง B A
+//   // > จะไม่สลับ A B
+//   if (a > b) return 1;
+//   if (b > a) return -1;
+// });
+// console.log(movements);
 
-})
+movements.sort((a, b) => a - b); // น้อยไปมาก
+movements.sort((a, b) => b - a); // มากไปน้อย
+console.log(movements);
+
+//More Ways of Creating and Filling Arrays
+const x1 = new Array(4); //ใส่แค่ตัวเดียวจะเป็นการสร้างอาร์เรเปล่ามาตามจำนวนที่เอาใส่
+console.log(x1);
+
+x.fill(1, 4, 5); // ตำแหน่งที่สองและสามสามารถกำหนดจุดเริ่มต้นและสิ้นสุดได้
+//เติมให้เต็ม;
+console.log(x1);
+
+const y2 = Array.from({ length: 5 }, () => 1); //เป็นการสร้างอาร์หรือเปล่าคล้ายกับ map
+console.log(y2);
+
+const count = Array.from({ length: 19 }, (_, i) => i + 1); //ทำอาเลนับหนึ่งถึง 19
+console.log(count);
+
+const dies100 = Array.from({ length: 100 }, () =>
+  Math.trunc(Math.random() * 6 + 1)
+);
+
+console.log(dies100);
+
+labelBalance.addEventListener('click', function () {
+  //ไม่ต้องเป็น ปุ่มก็ทำได้
+  const movementUI = Array.from(
+    document.querySelectorAll('.movements__value')
+  ).map(el => el.textContent.replace('฿', '')); //สแกนหาตัวที่มีคาสต์ชื่อนี้ทั้งหมดใส่ใน array
+
+  console.log(movementUI); //ทีนี้เราก็สามารถปรับแก้ทีละหลายหลายตัวได้หมดเลย
+});
+
+// หาผลรวมเงินฝากทั้งหมดในธนาคารทุกบัญชี
+const bankDepositSum = accounts
+  .flatMap(ac => ac.movements)
+  .filter(mon => mon > 0)
+  .reduce((acc, mon) => acc + mon);
+
+console.log(bankDepositSum);
+
+// ต้องการผลรวมของเงินฝากที่เงินมากกว่า 1000
+const numDesposits1000 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((count, mov) => (mov >= 1000 ? ++count : count), 0);
+//ทำเงื่อนไขกรองในนี้เลยก็ได้
+console.log(numDesposits1000);
+
+// ให้ทำเจ็ดขึ้นมาโดยใช้ reduce ในการสร้าง
+const sums = accounts
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (acc, mov) => {
+      // mov > 0 ? (acc.numDesposits += mov) : (acc.witgdrawals += mov);
+      acc[mov > 0 ? 'numDesposits' : 'witgdrawals'] += mov; // sameเมื่อจะแทนค่าด้วยคอนดิชั่นใช ้ [] แทน . ใน object ใด้
+      return acc;
+    },
+    { numDesposits: 0, witgdrawals: 0 } //สามารถกำหนดค่าเริ่มต้นให้เป็นอ๊อฟเจ็กได้
+  );
+
+console.log(sums);
+// ทำให้ทุกตัวเป็นพิมพ์ใหญ่ยกเว้น a
+const text = 'this is a nice title';
+const trText = text
+  .split(' ')
+  .map(te => (te !== 'a' ? te[0].toUpperCase() + te.slice(1) : te))
+  .join(' ');
+
+console.log(trText);
+
+const converTitleCase = function (title) {
+  const expections = [
+    'a',
+    'an',
+    'the',
+    'but',
+    'or',
+    'on',
+    'in',
+    'with',
+    'and ',
+  ];
+
+  const capotzalize = str => str[0].toUpperCase() + str.slice(1);
+  const result = title
+    .toLowerCase()
+    .split(' ')
+    .map(te =>
+      expections.includes(te) ? te : te[0].toUpperCase() + te.slice(1)
+    )
+    .join(' ');
+  return capotzalize(result);
+};
+
+console.log(converTitleCase('this is a nice title'));
+console.log(converTitleCase('this is a LONG title but not too long'));
+console.log(converTitleCase('and here is another title with an EXAMPLE'));
+console.log(converTitleCase('this is a nice title'));
+
+//Coding Challenge #4=======================================
+// Julia and Kate are still studying dogs, and this time they are studying if dogs are
+// eating too much or too little.
+// Eating too much means the dog's current food portion is larger than the
+// recommended portion, and eating too little is the opposite.
+// Eating an okay amount means the dog's current food portion is within a range 10%
+// above and 10% below the recommended portion (see hint).
+// Your tasks:
+// 1. Loop over the 'dogs' array containing dog objects, and for each dog, calculate
+// the recommended food portion and add it to the object as a new property. Do
+// not create a new array, simply loop over the array. Forumla:
+// recommendedFood = weight ** 0.75 * 28. (The result is in grams of
+// food, and the weight needs to be in kg)
+// 2. Find Sarah's dog and log to the console whether it's eating too much or too
+// little. Hint: Some dogs have multiple owners, so you first need to find Sarah in
+// the owners array, and so this one is a bit tricky (on purpose) �
+// 3. Create an array containing all owners of dogs who eat too much
+// ('ownersEatTooMuch') and an array with all owners of dogs who eat too little
+// ('ownersEatTooLittle').
+// 4. Log a string to the console for each array created in 3., like this: "Matilda and
+// Alice and Bob's dogs eat too much!" and "Sarah and John and Michael's dogs eat
+// too little!"
+// 5. Log to the console whether there is any dog eating exactly the amount of food
+// that is recommended (just true or false)
+// 6. Log to the console whether there is any dog eating an okay amount of food
+// (just true or false)
+// 7. Create an array containing the dogs that are eating an okay amount of food (try
+// to reuse the condition used in 6.)
+// 8. Create a shallow copy of the 'dogs' array and sort it by recommended food
+// portion in an ascending order (keep in mind that the portions are inside the
+// array's objects �)
+
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+//1
+dogs.forEach(dog => {
+  dog.recommendedFood = dog.weight ** 0.75 * 28;
+});
+
+//2
+const calculateEat = function (dog) {
+  const result =
+    dog.curFood < dog.recommendedFood * 0.9
+      ? 'EatTooLittle'
+      : dog.curFood > dog.recommendedFood * 1.1
+      ? 'EatTooMuch'
+      : 'amount of food';
+  console.log(result);
+};
+
+const dogSarah = dogs.find(dog => dog.owners.includes('Sarah'));
+
+calculateEat(dogSarah);
+//3
+const ownersEatTooMuch = dogs
+  .filter(dog => dog.curFood > dog.recommendedFood * 1.1)
+  .flatMap(dogCheck => dogCheck.owners);
+const ownersEatTooLittle = dogs
+  .filter(dog => dog.curFood < dog.recommendedFood * 0.9)
+  .flatMap(dogCheck => dogCheck.owners);
+
+console.log(ownersEatTooMuch);
+console.log(ownersEatTooLittle);
+
+//4
+console.log(`${ownersEatTooMuch.join(' and ')}\'s dogs eat too much!`);
+console.log(`${ownersEatTooLittle.join(' and ')}'s dogs eat
+too little!`);
+
+//5
+const amounFood = dogs
+  .filter(
+    dog =>
+      dog.curFood <= dog.recommendedFood * 1.1 &&
+      dog.curFood >= dog.recommendedFood * 0.9
+  )
+  .flatMap(chackdog => chackdog.owners);
+
+console.log(
+  `${amounFood.join(' and ')}'s is dog owner eating exactly the amount of food`
+);
+
+//6
+console.log(amounFood);
+
+//7
+const sortRecommendedFood = dogs
+  .slice()
+  .sort((a, b) => a.recommendedFood - b.recommendedFood);
+
+console.log(dogs);
+console.log(sortRecommendedFood);
