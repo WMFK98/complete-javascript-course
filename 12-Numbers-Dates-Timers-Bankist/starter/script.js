@@ -94,7 +94,7 @@ const displayMovements = function (movements, sort = false) {
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-        <div class="movements__value">${mov}€</div>
+        <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
 
@@ -111,12 +111,12 @@ const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes}€`;
+  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
 
   const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(out)}€`;
+  labelSumOut.textContent = `${Math.abs(out).toFixed(2)}€`;
 
   const interest = acc.movements
     .filter(mov => mov > 0)
@@ -126,7 +126,7 @@ const calcDisplaySummary = function (acc) {
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${interest}€`;
+  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
 };
 
 const createUsernames = function (accs) {
@@ -206,7 +206,7 @@ btnTransfer.addEventListener('click', function (e) {
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
 
-  const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
@@ -251,3 +251,49 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+
+//string to number
+console.log(0.1 + 0.2); // เป็นไปได้ยากเนื่องจาก 0.3 = 3/10 = 3.33333 มันเลยปัดขึ้นให้
+
+console.log(Number('23'));
+console.log(+'23'); //same
+// สามารถใช้รับค่าที่มีหน่วยต่อหลังให้เอาเฉพาะตัวเลขได้ในตัว css
+console.log(Number.parseInt('30px', 10)); //จะตัดตัวหนังสือออกไปให้
+console.log(Number.parseInt('w30px', 10)); // ได้แต่ต้องเป็นตัวเลขที่อยู่ข้างหน้าเท่านั้น
+// ค่าที่สองที่ใส่ไปคือบอกว่าเป็นเลขฐานอะไร
+
+console.log(Number.parseFloat('2.5rem')); // เอาทศนิยม
+
+console.log(Number.isNaN(+'kk')); //เช็คค่านี้ไม่ใช่ตัวเลข
+
+console.log(Number.isFinite(20)); // ถ้าเป็นตัวเลขจะเป็นจริง
+console.log(Number.isFinite('20'));
+console.log(Number.isFinite(+'20'));
+console.log(Number.isFinite(+'20l'));
+
+// สุ่มตัวเลขแบบกำหนดช่วง
+const randomInt = (min, max) =>
+  Math.trunc(Math.random() * (max - min) + 1) + min;
+
+console.log(randomInt(0, 5));
+
+console.log(Math.round(23.9));
+console.log(Math.round(23.3));
+
+console.log(Math.ceil(23.9)); // ปัดขึ้นไม่ว่ากรณีใด
+console.log(Math.ceil(23.3));
+
+console.log(Math.floor(23.9)); // ปัดลงไม่ว่ากรณีใด
+console.log(Math.floor(23.3));
+
+console.log(Math.floor(-23.3)); // ติดลบจะตรงข้าม
+
+console.log((2.7).toFixed(5)); //กำหนดว่าจะเอาทศนิยม ปัดขึ้นปัดลงให้ด้วย
+console.log(+(2.7).toFixed(5)); // ปกติจะออกมาเป็นสตริง
+
+labelBalance.addEventListener('click', function () {
+  console.log(777);
+  [...document.querySelectorAll('.movements__row')].forEach(function (row, i) {
+    if (i % 2 === 0) row.style.backgroundColor = 'red';
+  });
+});
