@@ -77,9 +77,17 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+const now = new Date();
+const day = `${now.getDate()}`.padStart(2, 0); //ทำเลขเริ่มต้น 00
+const month = now.getMonth() + 1;
+const year = now.getFullYear();
+const hour = now.getHours();
+const min = now.getMinutes();
 
 /////////////////////////////////////////////////
 // Functions
+
+labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
 
 const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
@@ -297,3 +305,32 @@ labelBalance.addEventListener('click', function () {
     if (i % 2 === 0) row.style.backgroundColor = 'red';
   });
 });
+
+// console.log(Number.MAX_VALUE); //หาค่ามากสุด
+
+// const now = new Date(); //บอกเวลา
+
+// console.log(now);
+
+// console.log(new Date('aug 02 2020 18:05:41'));
+// console.log(new Date(2037, 10, 19, 15, 23, 5)); //เริ่มต้นที่ 0
+
+// console.log(new Date(3 * 24 * 60 * 60 * 1000)); //คำนวณเวลา 3 วันถัดไป
+
+const future = new Date(2037, 10, 19, 15, 23, 5);
+
+console.log(future);
+console.log(future.getFullYear()); //ปี
+console.log(future.getMonth());
+console.log(future.getDate());
+console.log(future.getDay());
+console.log(future.getHours());
+console.log(future.getMinutes());
+console.log(future.getSeconds());
+console.log(future.toISOString()); //เวลาสากล
+console.log(future.getTime()); //ให้ข้อมูลเวลาเป็น เสี้้ยววิ
+
+console.log(Date.now); //ค่าเวลาเป็นวิ
+
+future.setFullYear(1029); //ตั้งค่าใหม่
+console.log(future);
