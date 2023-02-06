@@ -108,3 +108,59 @@ logo.classList.contains('c');
 
 logo.className = 'fluke';
 //พยายามอย่าใช้ตัวนี้เพราะว่ามันจะทำการแทนที่คลาสทั้งหมด
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', function (e) {
+  const s1coords = section1.getBoundingClientRect();
+  //ตำแหน่งของวัตถุตรงวิลล์พอร์ต
+  console.log(s1coords);
+
+  console.log('Current scroll (X/Y)', window.pageXOffset, window.pageYOffset); // บอกตำแหน่งของ. สกอร์ ในหน้าเว็บของเรา
+
+  console.log(
+    'height/width viewport',
+    document.documentElement.clientHeight,
+    document.documentElement.clientWidth
+    // บอกขนาดของสิ่งของนั้นนั้น
+  );
+  //Scroling
+  // แบบเก่า
+  // window.scrollTo(
+  //   s1coords.left + window.pageXOffset,
+  //   s1coords.top + window.pageYOffset
+  // );
+  // คำสั่งนี้ทำให้เคลื่อนย้ายไปยังตำแหน่งที่มีคลาสนั้น
+  //ต้องบวกเพิ่มทำให้อ้างอิงกับตัวหน้าเว็บหลักไม่ใช่แค่วิวพอร์ท
+
+  // window.scrollTo({
+  //   left: s1coords.left + window.pageXOffset,
+  //   top: s1coords.top + window.pageYOffset,
+  //   behavior: 'smooth',
+  // });
+  // //ทำให้มีอนิเมชั่นเลื่อนลง
+
+  section1.scrollIntoView({ behavior: 'smooth' });
+  // เหมือนกันและสั้นกว่า
+});
+
+const h1 = document.querySelector('h1');
+// h1.addEventListener('mouseenter', function (e) {
+//   // ทำงานเหมือน hover CSS
+//   alert('hi');
+// });
+
+const alertH1 = function (e) {
+  alert('he');
+};
+h1.addEventListener('mouseenter', alertH1);
+
+setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000); // หน่วงเวลา
+
+//และนี่คือเหตุผลที่ตั้งชื่อให้ฟังชั่นเพื่อรอฟังชั่นออกเพราะต้องการให้มันทำงานแค่ครั้งเดียวที่
+
+// h1.onmouseenter = function (e) {
+//   alert('hello');
+// }; //ทำงานเหมือนกันกว่าแต่ สั้นกว่า
