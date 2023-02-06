@@ -29,3 +29,82 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+//selectingฝฝ
+console.log(document.documentElement);
+const header = document.querySelector('.header');
+console.log(document.body); // โชว์เนื้อหาทั้งหมดที่อยู่ในtextนั้น
+
+const allSection = document.querySelectorAll('.setion');
+
+document.querySelector('.setion--1');
+document.getElementById('button'); //เข้าถึงไอดี
+const allbutton = document.getElementsByTagName('button'); //เข้าถึงปุ่มทั้งหมด
+console.log(allbutton); // เป็นการเข้าเขตต่างๆหากไม่อยู่ใน dom ตัวนั้นก็จะหายไปด้วย โดยเมื่อเรียกใช้ตัวนี้ มันจะอัพเดทการเข้าถึงใหม่ด้วย ซึ่งต่าง กับ querySelectorAll จะเป็นการบันทึกค่าเอาไว้เฉยเฉยเมื่อมีการเปลี่ยนแปลงดอมและเรียกใช้ตัวนี้ก็จะเรียก แค่ตัวที่เคยบันทึกในช่วงนั้น
+
+console.log(document.getElementsByClassName('btn'));
+//Creating
+const message = document.createElement('div');
+// อันนี้จะยังไม่ปรากฏใน dom เราต้องเข้ามันเข้า ด้วยตัวเอง
+
+message.classList.add('cookie-message');
+// message.textContent() = 'we have cookied'; ไม่นิยมใช้
+
+message.innerHTML =
+  'We use cookied for improved functionality and analytics. <button class="btn btn--close-cookie"> Got it! </button>'; //ทำแบบนี้วางทับ
+
+// header.prepend(message); //วางไว้ส่วน หัว
+// header.append(message.cloneNode(true)); // เอาไว้ตอนท้าย
+//header ไม่สามารถอยู่สองที่ได้
+
+// ถ้าจะทำแบบนั้นต้อง cloneNode
+
+header.after(message); // ทำงานหลังจากหัวข้อ นั้น
+
+document
+  .querySelector('.btn--close-cookie')
+  .addEventListener('click', function () {
+    message.remove();
+    message.parentElement.removeChild(message); // แบบเก่า
+  });
+
+message.style.backgroundColor = '#37383d';
+message;
+
+console.log(getComputedStyle(message));
+// เอาไว้สำหรับแสดงสไตล์
+
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
+
+// setInterval(function () {
+//   document.documentElement.style.setProperty('--color-primary', 'green'); // เปลี่ยนค่ารูทใน CSS
+// }, 1000);
+// setInterval(function () {
+//   document.documentElement.style.setProperty('--color-primary', 'red'); // เปลี่ยนค่ารูทใน CSS
+// }, 2000);
+
+const logo = document.querySelector('.nav__logo');
+console.log(logo.alt);
+console.log(logo.src); //ค่าที่เข้าถึงจริงๆ
+console.log(logo.className);
+// สามารถเรียกดูคุณสมบัติต่างๆได้แต่ต้องเป็นคุณสมบัติพื้นฐาน
+logo.alt = 'protin'; // เปลี่ยนได้
+
+console.log(logo.getAttribute('desiner'));
+
+console.log(logo.getAttribute('src')); //้จะบอกข้าทีกรอก
+
+const link = document.querySelector('.nav__link--btn');
+console.log(link.href); // สิ่งนี้จะโชว์ที่อยู่ด้วย
+console.log(link.getAttribute('href')); // โชว์แค่คอนเทนท์
+
+console.log(logo.dataset.versionNumber);
+
+//classes
+logo.classList.add('c');
+logo.classList.remove('c');
+logo.classList.toggle('c');
+logo.classList.contains('c');
+
+logo.className = 'fluke';
+//พยายามอย่าใช้ตัวนี้เพราะว่ามันจะทำการแทนที่คลาสทั้งหมด
