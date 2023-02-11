@@ -164,3 +164,15 @@ setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000); // หน
 // h1.onmouseenter = function (e) {
 //   alert('hello');
 // }; //ทำงานเหมือนกันกว่าแต่ สั้นกว่า
+
+//191. Event Propagation in Practice
+
+const ramdomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
+
+const randomColor = () =>
+  `rgb(${ramdomInt(0, 255)},${ramdomInt(0, 255)},${ramdomInt(0, 255)})`;
+
+setInterval(() => {
+  document.documentElement.style.setProperty('--color-primary', randomColor());
+}, 50);
