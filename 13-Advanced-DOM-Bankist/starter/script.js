@@ -173,6 +173,8 @@ const ramdomInt = (min, max) =>
 const randomColor = () =>
   `rgb(${ramdomInt(0, 255)},${ramdomInt(0, 255)},${ramdomInt(0, 255)})`;
 
-setInterval(() => {
-  document.documentElement.style.setProperty('--color-primary', randomColor());
-}, 50);
+// setInterval(() => {
+//   document.documentElement.style.setProperty('--color-primary', randomColor());
+// }, 50);
+
+document.querySelector()
