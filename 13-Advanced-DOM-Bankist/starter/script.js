@@ -177,4 +177,17 @@ const randomColor = () =>
 //   document.documentElement.style.setProperty('--color-primary', randomColor());
 // }, 50);
 
-document.querySelector()
+document.querySelector('.nav__link').addEventListener('click', function (e) {
+  e.preventDefault();
+  this.style.backgroundColor = randomColor();
+});
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+  this.style.backgroundColor = randomColor();
+});
+
+document.querySelector('.nav').addEventListener('click', function (e) {
+  e.preventDefault();
+  this.style.backgroundColor = randomColor();
+});
