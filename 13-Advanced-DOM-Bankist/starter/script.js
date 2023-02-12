@@ -177,17 +177,77 @@ const randomColor = () =>
 //   document.documentElement.style.setProperty('--color-primary', randomColor());
 // }, 50);
 
-document.querySelector('.nav__link').addEventListener('click', function (e) {
-  e.preventDefault();
-  this.style.backgroundColor = randomColor();
-});
+// document.querySelector('.nav__link').addEventListener('click', function (e) {
+//   e.preventDefault();
+//   this.style.backgroundColor = randomColor();
+//   console.log('link', e.target, e.currentTarget); //แสดงเป้าหมายที่จิ้มครั้งแรก e.target
+//   //currentTarget เป้าหมายหลายตัว
+//   console.log(e.currentTarget === this); //เมกือนกันทุกประการ
+//   // e.stopPropagation(); //หยุดการทำงานตัวอื่น
+// });
 
+// document.querySelector('.nav__links').addEventListener(
+//   'click',
+//   function (e) {
+//     e.preventDefault();
+//     this.style.backgroundColor = randomColor();
+//     console.log('conytainer', e.target, e.currentTarget);
+//   },
+//   true
+// );
+
+// document.querySelector('.nav').addEventListener(
+//   'click',
+//   function (e) {
+//     e.preventDefault();
+//     this.style.backgroundColor = randomColor();
+//     console.log('nav', e.target, e.currentTarget);
+//   },
+//   true //คือเอาจากตัวลึกใน dom ก่อนแล้วตอนส่งกลับค่อย call ตัวที่อยู่ด้านบน
+// );
+
+//แบบนี้ไม่แนะนำเพราะมันเป็นการ loop ถ้ามี 10000 จะไม่มีประสิทธิถ้าพ
+// document.querySelectorAll('.nav__link').forEach(function (el) {
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     console.log('link');
+//     const id = this.getAttribute('href');
+//     console.log(id);
+//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+//   });
+// });
+//ต้องใช้ Propagation
 document.querySelector('.nav__links').addEventListener('click', function (e) {
-  e.preventDefault();
-  this.style.backgroundColor = randomColor();
+  console.log(e.target);
+  if (e.target.classList.contains('nav__link')) {
+    e.preventDefault();
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
 });
 
-document.querySelector('.nav').addEventListener('click', function (e) {
-  e.preventDefault();
-  this.style.backgroundColor = randomColor();
+// const h1 = document.querySelector('h1')
+
+console.log(h1.querySelectorAll('.highlight'));
+console.log(h1.childNodes); //บอกองค์ประกอบลูก
+console.log(h1.children); //บอกeleลูก
+
+// setInterval(() => {
+h1.firstElementChild.style.color = randomColor();
+h1.lastElementChild.style.color = randomColor();
+
+// }, 100);
+console.log(h1.parentNode);
+console.log(h1.parentElement);
+h1.closest('.header').style.backgroundColor = 'var(--gradient-secondary)'; //เข้าถึงตัวใหญ่ๆได้ทั้งหมด
+
+console.log(h1.previousElementSibling);
+console.log(h1.nextSibling);
+
+console.log(h1.parentElement.children);
+
+[...h1.parentElement.children].forEach(function (el) {
+  if (el !== h1) el.style.transform = 'scale(0.5)';
 });
+
+
