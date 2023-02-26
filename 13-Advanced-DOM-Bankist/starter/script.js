@@ -7,6 +7,7 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const nav = document.querySelector('.nav');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -250,4 +251,35 @@ console.log(h1.parentElement.children);
   if (el !== h1) el.style.transform = 'scale(0.5)';
 });
 
+const tabsContenier = document.querySelector('.operations__tab-container');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContent = document.querySelectorAll('.operations__content');
 
+//activate-content-area
+tabsContenier.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab'); // หากหาไม่เจอค่ะจะเป็น null
+  if (!clicked) return;
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+
+  tabsContent.forEach(t => t.classList.remove('operations__content--active'));
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+  console.log(clicked.dataset.tab);
+});
+const handleHover = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const sibings = link.closest('nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+    sibings.forEach(el => {
+      // ต้องระวังการตั้งรูปแบบฟังก์ชันไว้ให้ดีเพราะถ้าตั้งแบบ function this keyword จะใช้เป็นของตัวในนั้นของมันแทนที่จะใช้ของ handleHover
+      if (el !== link) el.style.opacity = this;
+    });
+    logo.style.opacity = this;
+  }
+};
+//manu animation add
+nav.addEventListener('mouseover', handleHover.bind(0.5)); // สามารถรับได้แค่พารามิเตอร์เดียวที่จะใส่อัตโนมัติ
+nav.addEventListener('mouseout', handleHover.bind(1)); // สิ่งนี้คือการกำหนดค่าของ this ให้กับตัวในฟังก์ชันเพื่อเอาไปใช้
