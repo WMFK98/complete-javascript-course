@@ -7,6 +7,7 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const nav = document.querySelector('.nav');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -34,7 +35,7 @@ console.log(document.documentElement);
 const header = document.querySelector('.header');
 console.log(document.body); // โชว์เนื้อหาทั้งหมดที่อยู่ในtextนั้น
 
-const allSection = document.querySelectorAll('.setion');
+// const allSection = document.querySelectorAll('.setion');
 
 document.querySelector('.setion--1');
 document.getElementById('button'); //เข้าถึงไอดี
@@ -152,12 +153,12 @@ const h1 = document.querySelector('h1');
 //   alert('hi');
 // });
 
-const alertH1 = function (e) {
-  alert('he');
-};
-h1.addEventListener('mouseenter', alertH1);
+// const alertH1 = function (e) {
+//   alert('he');
+// };
+// h1.addEventListener('mouseenter', alertH1);
 
-setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000); // หน่วงเวลา
+// setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000); // หน่วงเวลา
 
 //และนี่คือเหตุผลที่ตั้งชื่อให้ฟังชั่นเพื่อรอฟังชั่นออกเพราะต้องการให้มันทำงานแค่ครั้งเดียวที่
 
@@ -246,8 +247,113 @@ console.log(h1.nextSibling);
 
 console.log(h1.parentElement.children);
 
-[...h1.parentElement.children].forEach(function (el) {
-  if (el !== h1) el.style.transform = 'scale(0.5)';
+// [...h1.parentElement.children].forEach(function (el) {
+//   if (el !== h1) el.style.transform = 'scale(0.5)';
+// });
+
+const tabsContenier = document.querySelector('.operations__tab-container');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+//activate-content-area
+tabsContenier.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab'); // หากหาไม่เจอค่ะจะเป็น null
+  if (!clicked) return;
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+
+  tabsContent.forEach(t => t.classList.remove('operations__content--active'));
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+  console.log(clicked.dataset.tab);
+});
+const handleHover = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const sibings = link.closest('nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+    sibings.forEach(el => {
+      // ต้องระวังการตั้งรูปแบบฟังก์ชันไว้ให้ดีเพราะถ้าตั้งแบบ function this keyword จะใช้เป็นของตัวในนั้นของมันแทนที่จะใช้ของ handleHover
+      if (el !== link) el.style.opacity = this;
+    });
+    logo.style.opacity = this;
+  }
+};
+//manu animation add
+nav.addEventListener('mouseover', handleHover.bind(0.5)); // สามารถรับได้แค่พารามิเตอร์เดียวที่จะใส่อัตโนมัติ
+nav.addEventListener('mouseout', handleHover.bind(1)); // สิ่งนี้คือการกำหนดค่าของ this ให้กับตัวในฟังก์ชันเพื่อเอาไปใช้
+const initalralCoords = section1.getBoundingClientRect();
+
+// //sticky nav ไม่แนะนำเพราะเป็นการทำงานที่หนักหน่วง
+// window.addEventListener('scroll', function () {
+//   if (window.scrollY > initalralCoords.top) nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// });
+
+// Better Way: The Intersection Observer API
+// const obsCallback = function (entires, observer) {
+//   alert('j');
+//   entires.forEach(entire => console.log(entire));
+// };
+// const obsOption = {
+//   root: null,
+//   threshold: [0, 0.2], // สามารถ เห็น viewport ตาม ตามค่าเป็นเปอร์เซ็นต์ได้ให้แสดงตามที่กำหนดอย่างเช่น 0% 20%  ค่อยแสดง
+// };
+
+// const observer = new IntersectionObserver(obsCallback, obsOption);
+// observer.observe(section1);
+const navHight = nav.getBoundingClientRect().height;
+const navObserver = function (entires) {
+  const [entire] = entires;
+  if (!entire.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+const headerObserver = new IntersectionObserver(navObserver, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHight}px`,
 });
 
+//ปุ่ม option
+// const tabs = document.querySelectorAll('.operations__tab');
+// const tabsContainer = document.querySelector('.operations__tab-container');
+// const tabsContent = document.querySelectorAll('.operations__content');
 
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+  console.log(clicked);
+  // if (clicked.classList.contains('operations__tab')) {
+  if (!clicked) return; //check same
+
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+  //ลบตัวเดิม
+  tabsContent.forEach(t => t.classList.remove('operations__content--active'));
+
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active'); //มาจาก dataset-tap
+headerObserver.observe(header);
+
+//Revealing Elements on Scroll
+
+const allSection = document.querySelectorAll('.section');
+
+const revealsSec = function (entires, observe) {
+  const [entire] = entires;
+  console.log(entire);
+  if (!entire.isIntersecting) return;
+  entire.target.classList.remove('section--hidden'); //ตัวที่บ่งบอกถึงปัจจุบันที่กำลังสังเกตอยู่
+  observe.unobserve(entire.target); // หลังจากแสดงแล้วก็ไม่ต้องสังเกตอีก
+};
+
+const secObserver = new IntersectionObserver(revealsSec, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSection.forEach(sec => {
+  secObserver.observe(sec);
+  sec.classList.add('section--hidden');
+});
