@@ -315,6 +315,7 @@ const headerObserver = new IntersectionObserver(navObserver, {
   rootMargin: `-${navHight}px`,
 });
 
+<<<<<<< HEAD
 //ปุ่ม option
 // const tabs = document.querySelectorAll('.operations__tab');
 // const tabsContainer = document.querySelector('.operations__tab-container');
@@ -336,6 +337,10 @@ tabsContainer.addEventListener('click', function (e) {
     .classList.add('operations__content--active'); //มาจาก dataset-tap
 headerObserver.observe(header);
 
+=======
+headerObserver.observe(header);
+
+>>>>>>> fb729c80b03fc853075761c4c833385305600325
 //Revealing Elements on Scroll
 
 const allSection = document.querySelectorAll('.section');
