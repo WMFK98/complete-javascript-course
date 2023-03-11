@@ -31,18 +31,18 @@ document.addEventListener('keydown', function (e) {
   }
 });
 //selectingฝฝ
-console.log(document.documentElement);
+// console.log(document.documentElement);
 const header = document.querySelector('.header');
-console.log(document.body); // โชว์เนื้อหาทั้งหมดที่อยู่ในtextนั้น
+// console.log(document.body); // โชว์เนื้อหาทั้งหมดที่อยู่ในtextนั้น
 
 // const allSection = document.querySelectorAll('.setion');
 
 document.querySelector('.setion--1');
 document.getElementById('button'); //เข้าถึงไอดี
 const allbutton = document.getElementsByTagName('button'); //เข้าถึงปุ่มทั้งหมด
-console.log(allbutton); // เป็นการเข้าเขตต่างๆหากไม่อยู่ใน dom ตัวนั้นก็จะหายไปด้วย โดยเมื่อเรียกใช้ตัวนี้ มันจะอัพเดทการเข้าถึงใหม่ด้วย ซึ่งต่าง กับ querySelectorAll จะเป็นการบันทึกค่าเอาไว้เฉยเฉยเมื่อมีการเปลี่ยนแปลงดอมและเรียกใช้ตัวนี้ก็จะเรียก แค่ตัวที่เคยบันทึกในช่วงนั้น
+// console.log(allbutton); // เป็นการเข้าเขตต่างๆหากไม่อยู่ใน dom ตัวนั้นก็จะหายไปด้วย โดยเมื่อเรียกใช้ตัวนี้ มันจะอัพเดทการเข้าถึงใหม่ด้วย ซึ่งต่าง กับ querySelectorAll จะเป็นการบันทึกค่าเอาไว้เฉยเฉยเมื่อมีการเปลี่ยนแปลงดอมและเรียกใช้ตัวนี้ก็จะเรียก แค่ตัวที่เคยบันทึกในช่วงนั้น
 
-console.log(document.getElementsByClassName('btn'));
+// console.log(document.getElementsByClassName('btn'));
 //Creating
 const message = document.createElement('div');
 // อันนี้จะยังไม่ปรากฏใน dom เราต้องเข้ามันเข้า ด้วยตัวเอง
@@ -71,7 +71,7 @@ document
 message.style.backgroundColor = '#37383d';
 message;
 
-console.log(getComputedStyle(message));
+// console.log(getComputedStyle(message));
 // เอาไว้สำหรับแสดงสไตล์
 
 message.style.height =
@@ -85,21 +85,21 @@ message.style.height =
 // }, 2000);
 
 const logo = document.querySelector('.nav__logo');
-console.log(logo.alt);
-console.log(logo.src); //ค่าที่เข้าถึงจริงๆ
-console.log(logo.className);
+// console.log(logo.alt);
+// console.log(logo.src); //ค่าที่เข้าถึงจริงๆ
+// console.log(logo.className);
 // สามารถเรียกดูคุณสมบัติต่างๆได้แต่ต้องเป็นคุณสมบัติพื้นฐาน
 logo.alt = 'protin'; // เปลี่ยนได้
 
-console.log(logo.getAttribute('desiner'));
+// console.log(logo.getAttribute('desiner'));
 
-console.log(logo.getAttribute('src')); //้จะบอกข้าทีกรอก
+// console.log(logo.getAttribute('src')); //้จะบอกข้าทีกรอก
 
-const link = document.querySelector('.nav__link--btn');
-console.log(link.href); // สิ่งนี้จะโชว์ที่อยู่ด้วย
-console.log(link.getAttribute('href')); // โชว์แค่คอนเทนท์
+// const link = document.querySelector('.nav__link--btn');
+// console.log(link.href); // สิ่งนี้จะโชว์ที่อยู่ด้วย
+// console.log(link.getAttribute('href')); // โชว์แค่คอนเทนท์
 
-console.log(logo.dataset.versionNumber);
+// console.log(logo.dataset.versionNumber);
 
 //classes
 logo.classList.add('c');
@@ -117,16 +117,16 @@ const section1 = document.querySelector('#section--1');
 btnScrollTo.addEventListener('click', function (e) {
   const s1coords = section1.getBoundingClientRect();
   //ตำแหน่งของวัตถุตรงวิลล์พอร์ต
-  console.log(s1coords);
+  // console.log(s1coords);
 
-  console.log('Current scroll (X/Y)', window.pageXOffset, window.pageYOffset); // บอกตำแหน่งของ. สกอร์ ในหน้าเว็บของเรา
+  // console.log('Current scroll (X/Y)', window.pageXOffset, window.pageYOffset); // บอกตำแหน่งของ. สกอร์ ในหน้าเว็บของเรา
 
-  console.log(
-    'height/width viewport',
-    document.documentElement.clientHeight,
-    document.documentElement.clientWidth
-    // บอกขนาดของสิ่งของนั้นนั้น
-  );
+  // // console.log(
+  //   'height/width viewport',
+  //   document.documentElement.clientHeight,
+  //   document.documentElement.clientWidth
+  //   // บอกขนาดของสิ่งของนั้นนั้น
+  // );
   //Scroling
   // แบบเก่า
   // window.scrollTo(
@@ -219,7 +219,7 @@ const randomColor = () =>
 // });
 //ต้องใช้ Propagation
 document.querySelector('.nav__links').addEventListener('click', function (e) {
-  console.log(e.target);
+  // console.log(e.target);
   if (e.target.classList.contains('nav__link')) {
     e.preventDefault();
     const id = e.target.getAttribute('href');
@@ -229,23 +229,23 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 
 // const h1 = document.querySelector('h1')
 
-console.log(h1.querySelectorAll('.highlight'));
-console.log(h1.childNodes); //บอกองค์ประกอบลูก
-console.log(h1.children); //บอกeleลูก
+// console.log(h1.querySelectorAll('.highlight'));
+// console.log(h1.childNodes); //บอกองค์ประกอบลูก
+// console.log(h1.children); //บอกeleลูก
 
-// setInterval(() => {
-h1.firstElementChild.style.color = randomColor();
-h1.lastElementChild.style.color = randomColor();
+// // setInterval(() => {
+// h1.firstElementChild.style.color = randomColor();
+// h1.lastElementChild.style.color = randomColor();
 
-// }, 100);
-console.log(h1.parentNode);
-console.log(h1.parentElement);
-h1.closest('.header').style.backgroundColor = 'var(--gradient-secondary)'; //เข้าถึงตัวใหญ่ๆได้ทั้งหมด
+// // }, 100);
+// console.log(h1.parentNode);
+// console.log(h1.parentElement);
+// h1.closest('.header').style.backgroundColor = 'var(--gradient-secondary)'; //เข้าถึงตัวใหญ่ๆได้ทั้งหมด
 
-console.log(h1.previousElementSibling);
-console.log(h1.nextSibling);
+// console.log(h1.previousElementSibling);
+// console.log(h1.nextSibling);
 
-console.log(h1.parentElement.children);
+// console.log(h1.parentElement.children);
 
 // [...h1.parentElement.children].forEach(function (el) {
 //   if (el !== h1) el.style.transform = 'scale(0.5)';
@@ -266,7 +266,7 @@ tabsContenier.addEventListener('click', function (e) {
   document
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
-  console.log(clicked.dataset.tab);
+  // console.log(clicked.dataset.tab);
 });
 const handleHover = function (e) {
   if (e.target.classList.contains('nav__link')) {
@@ -314,16 +314,14 @@ const headerObserver = new IntersectionObserver(navObserver, {
   threshold: 0,
   rootMargin: `-${navHight}px`,
 });
-
-<<<<<<< HEAD
+headerObserver.observe(header);
 //ปุ่ม option
 // const tabs = document.querySelectorAll('.operations__tab');
-// const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContainer = document.querySelector('.operations__tab-container');
 // const tabsContent = document.querySelectorAll('.operations__content');
 
 tabsContainer.addEventListener('click', function (e) {
   const clicked = e.target.closest('.operations__tab');
-  console.log(clicked);
   // if (clicked.classList.contains('operations__tab')) {
   if (!clicked) return; //check same
 
@@ -331,23 +329,18 @@ tabsContainer.addEventListener('click', function (e) {
   clicked.classList.add('operations__tab--active');
   //ลบตัวเดิม
   tabsContent.forEach(t => t.classList.remove('operations__content--active'));
-
   document
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active'); //มาจาก dataset-tap
-headerObserver.observe(header);
+});
 
-=======
-headerObserver.observe(header);
-
->>>>>>> fb729c80b03fc853075761c4c833385305600325
 //Revealing Elements on Scroll
 
 const allSection = document.querySelectorAll('.section');
 
 const revealsSec = function (entires, observe) {
   const [entire] = entires;
-  console.log(entire);
+  // console.log(entire);
   if (!entire.isIntersecting) return;
   entire.target.classList.remove('section--hidden'); //ตัวที่บ่งบอกถึงปัจจุบันที่กำลังสังเกตอยู่
   observe.unobserve(entire.target); // หลังจากแสดงแล้วก็ไม่ต้องสังเกตอีก
@@ -360,5 +353,37 @@ const secObserver = new IntersectionObserver(revealsSec, {
 
 allSection.forEach(sec => {
   secObserver.observe(sec);
-  sec.classList.add('section--hidden');
+  // sec.classList.add('section--hidden');
+});
+
+// เปลี่ยนจากภาพเบอร์เป็นภาพปกติ
+const imgTargets = document.querySelectorAll('img[data-src]'); //เลือกอิมเมจที่มีดาต้าเสร็จ
+const loadImg = function (entires, observe) {
+  const [entire] = entires;
+  if (!entire.isIntersecting) return;
+  console.log(entire);
+  entire.target.src = entire.target.dataset.src; //เปลี่ยนจากลิงค์รูปภาพปัจจุบันเป็นลิ้งค์รูปภาพจากดาต้าเสร็จ
+  entire.target.addEventListener('load', function () {
+    //โหลดรูปภาพจากด้านบนให้เสร็จก่อนแล้วค่อยทำสิ่งนี้เอาไว้แก้ตอนเน็ตช้า
+    entire.target.classList.remove('lazy-img');
+    observe.unobserve(entire.target);
+  });
+};
+const imgObserve = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px', // ต้องการให้มันโหลดให้เสร็จก่อนผู้ ใช้จะเห็นถ้าเป็นไปได้
+});
+
+imgTargets.forEach(img => {
+  // เอาฟังก์ชั่นนี้ไปใส่ในคุกกี้ที่เป็นอิมเมจ
+  imgObserve.observe(img);
+});
+
+const silde = document.querySelectorAll('.slide');
+const silder = document.querySelectorAll('.slider');
+silde.forEach((s, i) => {
+  s.style.transform = `translateX(${100 * i}%)`;
+  // s.style.transform = 'scale(0.3)';
+  s.style.overflow = 'visible';
 });
