@@ -74,22 +74,22 @@ message;
 // console.log(getComputedStyle(message));
 // เอาไว้สำหรับแสดงสไตล์
 
-message.style.height =
-  Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
+// message.style.height =
+//   Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
 
-// setInterval(function () {
-//   document.documentElement.style.setProperty('--color-primary', 'green'); // เปลี่ยนค่ารูทใน CSS
-// }, 1000);
-// setInterval(function () {
-//   document.documentElement.style.setProperty('--color-primary', 'red'); // เปลี่ยนค่ารูทใน CSS
-// }, 2000);
+// // setInterval(function () {
+// //   document.documentElement.style.setProperty('--color-primary', 'green'); // เปลี่ยนค่ารูทใน CSS
+// // }, 1000);
+// // setInterval(function () {
+// //   document.documentElement.style.setProperty('--color-primary', 'red'); // เปลี่ยนค่ารูทใน CSS
+// // }, 2000);
 
-const logo = document.querySelector('.nav__logo');
-// console.log(logo.alt);
-// console.log(logo.src); //ค่าที่เข้าถึงจริงๆ
-// console.log(logo.className);
-// สามารถเรียกดูคุณสมบัติต่างๆได้แต่ต้องเป็นคุณสมบัติพื้นฐาน
-logo.alt = 'protin'; // เปลี่ยนได้
+// const logo = document.querySelector('.nav__logo');
+// // console.log(logo.alt);
+// // console.log(logo.src); //ค่าที่เข้าถึงจริงๆ
+// // console.log(logo.className);
+// // สามารถเรียกดูคุณสมบัติต่างๆได้แต่ต้องเป็นคุณสมบัติพื้นฐาน
+// logo.alt = 'protin'; // เปลี่ยนได้
 
 // console.log(logo.getAttribute('desiner'));
 
@@ -101,13 +101,13 @@ logo.alt = 'protin'; // เปลี่ยนได้
 
 // console.log(logo.dataset.versionNumber);
 
-//classes
-logo.classList.add('c');
-logo.classList.remove('c');
-logo.classList.toggle('c');
-logo.classList.contains('c');
+// //classes
+// logo.classList.add('c');
+// logo.classList.remove('c');
+// logo.classList.toggle('c');
+// logo.classList.contains('c');
 
-logo.className = 'fluke';
+// logo.className = 'fluke';
 //พยายามอย่าใช้ตัวนี้เพราะว่ามันจะทำการแทนที่คลาสทั้งหมด
 
 const btnScrollTo = document.querySelector('.btn--scroll-to');
@@ -380,10 +380,100 @@ imgTargets.forEach(img => {
   imgObserve.observe(img);
 });
 
-const silde = document.querySelectorAll('.slide');
-const silder = document.querySelectorAll('.slider');
-silde.forEach((s, i) => {
-  s.style.transform = `translateX(${100 * i}%)`;
-  // s.style.transform = 'scale(0.3)';
-  s.style.overflow = 'visible';
+const silder = function () {
+  //silder
+  const btnLeft = document.querySelector('.slider__btn--left');
+  const btnRight = document.querySelector('.slider__btn--right');
+  const sildes = document.querySelectorAll('.slide');
+  const silder = document.querySelector('.slider');
+  const maxSlide = sildes.length - 1;
+  const dotContainer = document.querySelector('.dots');
+  const dot = document.querySelectorAll('dots__dot');
+  // silder.style.overflow = 'visible';
+  // silder.style.transform = 'scale(0.4) translateX(-800px)';
+
+  const goToSlide = function (silde) {
+    sildes.forEach((s, i) => {
+      s.style.transform = `translateX(${100 * (i - silde)}%)`;
+    });
+    console.log(silde);
+  };
+
+  const createDots = function () {
+    sildes.forEach(function (_, i) {
+      dotContainer.insertAdjacentHTML(
+        'beforeend',
+        `<button class="dots__dot dots__dot--active" data-slide="${i}"></button>`
+      );
+    });
+  };
+
+  const activateDot = function (slide) {
+    document
+      .querySelectorAll('.dots__dot')
+      .forEach(dot => dot.classList.remove('dots__dot--active'));
+    document
+      .querySelector(`.dots__dot[data-slide="${slide}"]`)
+      .classList.add('dots__dot--active'); //ใน วงเล็บสี่เหลี่ยมจะเป็นการเจาะจง ถึงข้อมูลในคลาสนั้น
+  };
+
+  let curSilde = 0; //สไลด์ปัจจุบัน
+  const nextSlide = function () {
+    if (curSilde >= maxSlide) {
+      curSilde = 0;
+    } else {
+      curSilde++;
+    }
+    goToSlide(curSilde);
+    activateDot(curSilde);
+  };
+  const prevtSlide = function () {
+    if (curSilde <= 0) {
+      curSilde = maxSlide;
+    } else {
+      curSilde--;
+    }
+    goToSlide(curSilde);
+    activateDot(curSilde);
+  };
+  const init = function () {
+    createDots();
+    goToSlide(0);
+    activateDot(0);
+  };
+
+  init();
+
+  //Event handlers
+  btnRight.addEventListener('click', nextSlide);
+  btnLeft.addEventListener('click', prevtSlide);
+
+  document.addEventListener('keydown', function (e) {
+    e.key === 'ArrowLeft' && prevtSlide();
+    e.key === 'ArrowRight' && nextSlide();
+  });
+
+  dotContainer.addEventListener('click', function (e) {
+    if (e.target.classList.contains('dots__dot')) {
+      const { slide } = e.target.dataset;
+      goToSlide(slide);
+      curSilde = slide;
+      activateDot(curSilde);
+    }
+  });
+};
+
+silder();
+//จะทำงานเมื่อมีการเชื่อมกันแล้ว
+document.addEventListener('DOMContentLoaded', function (e) {
+  console.log('hi');
+});
+//จะทำงานเมื่อโหลด หน้าเว็บไซต์เสร็จ
+window.addEventListener('load', function (e) {
+  console.log('finish');
+});
+//จะทำงานก่อนปิดเว็บไซต์
+window.addEventListener('beforeunload', function (e) {
+  e.preventDefault();
+  e.returnValue = '';
 });
