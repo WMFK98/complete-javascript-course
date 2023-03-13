@@ -1,0 +1,11 @@
+body {
+  font-family: sans-serif;
+}
+
+.hide {
+  display: none;
+}
+
+.tap-active {
+  background-color: cyan;
+}
