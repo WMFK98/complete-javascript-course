@@ -1,7 +1,5 @@
 'use strict';
 
-const { Container } = require("@mui/material");
-
 console.log(55 / '888');
 class Workout {
   date = new Date();
@@ -70,7 +68,7 @@ class App {
     this._getPosition(); // สิ่งที่จะทำงานทันทีเมื่อมีการ สร้าง obj
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField); // พี่อันนี้ไม่ต้องใส่ bind เพราะข้างในนั้นไม่ได้มีการอ้างอิงถึง this คีย์ Word
-    containerWorkouts.addEventListener('click',this._moveToPopup.bind(this))
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
   }
   _getPosition() {
     navigator.geolocation.getCurrentPosition(
@@ -246,7 +244,15 @@ class App {
   }
 
   _moveToPopup(e) {
-    const workout
+    const workoutEl = e.target.closest('.workout');
+    console.log(workoutEl);
+
+    if (!workoutEl) return;
+
+    const workout = this.#workouts.find(
+      work => work.id === workoutEl.dataset.id //return ค่าที่่เจอ
+    );
+    console.log(workout);
   }
 }
 
