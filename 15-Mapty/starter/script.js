@@ -1,13 +1,16 @@
 'use strict';
 
-console.log(55 / '888');
 class Workout {
   date = new Date();
   id = (new Date().getTime() + '').slice(-10); //เอาค่าเสี้ยววินาที 10 ตัวสุดท้ายมาเป็นไอดี
+  clicks = 0;
   constructor(coords, distance, duration) {
     this.coords = coords; //[lat,lng]
     this.distance = distance; // in km
     this.duration = duration; // in min
+  }
+  click() {
+    this.clicks++;
   }
 
   _setDescription() {
@@ -47,7 +50,8 @@ class Cycling extends Workout {
     return this.speed;
   }
 }
-
+//app =======================================
+let app;
 const run1 = new Running([32, 34], 50, 78, 29);
 const cycling1 = new Cycling([30, 84], 40, 87, 289);
 console.log(run1, cycling1);
@@ -64,8 +68,10 @@ class App {
   #map;
   #mapEvent;
   #workouts = [];
+  #mapZoomLevel = 16;
   constructor() {
     this._getPosition(); // สิ่งที่จะทำงานทันทีเมื่อมีการ สร้าง obj
+    this._getLocalStorage();
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField); // พี่อันนี้ไม่ต้องใส่ bind เพราะข้างในนั้นไม่ได้มีการอ้างอิงถึง this คีย์ Word
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
@@ -85,7 +91,7 @@ class App {
     //   const { longitude } = position.coords.longitude;
     console.log(`https://www.google.co.th/maps/@${latitude},${longitude}`);
     const coords = [latitude, longitude];
-    this.#map = L.map('map').setView(coords, 16);
+    this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
 
     console.log(this);
 
@@ -95,6 +101,9 @@ class App {
     }).addTo(this.#map);
 
     this.#map.on('click', this._showFrom.bind(this));
+    this.#workouts.forEach(work => {
+      this._renderWorkoutMarker(work);
+    });
   }
   _showFrom(mapE) {
     // เอาฟังก์ชั่นไปใส่ในนี้แล้วจะทำให้สามารถเข้าถึง mapEvent ได้
@@ -156,8 +165,9 @@ class App {
     this._renderWorkoutMarker(workout); //renderWorkoutMarker ถือว่าเป็น medthod อยู่แล้วเพราะใช้ this จึงไม่ต้องใช้ bind คืออ้างอิง
     this._renderWorkout(workout);
     //hide form + clear input fields
-
     this._hidenform();
+
+    this._setLocalStorage();
 
     // console.log(this.#mapEvent);
 
@@ -253,10 +263,37 @@ class App {
       work => work.id === workoutEl.dataset.id //return ค่าที่่เจอ
     );
     console.log(workout);
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
+      animate: true,
+      pen: {
+        duration: 1,
+      },
+    });
+    // workout.click(); //เอาไว้สำหรับนับจำนวนว่าเราคิดไปแล้วเท่าไหร่
+  }
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts)); // เอาไว้สำหรับเก็บข้อมูลส่วนกลางซึ่งจะถูกเก็บไว้ในเบาเซอร์ของเรา
+    // JSON.stringify(this.#workouts) คือเก็บในรูปแบบของ json
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('workouts')); //JSON.parse คือการแปลง กลับ เมื่อมีการแปลงกลับจากสตริงเป็นอ๊อฟเจ็ก การสืบทอดหรือprototypeทุกอย่างจะหายไป เช่นฟังชั่น click ไม่สามารถทำงานได้ในตัวที่โหลดกลับเข้ามา
+    console.log(data);
+
+    if (!data) return; // ต้องตรวจสอบก่อนว่ามีค่าจริงหรือเปล่าไม่งั้นข้อมูลที่ทำมาอาจจะ หายได้
+    this.#workouts = data;
+    this.#workouts.forEach(work => {
+      // this._renderWorkoutMarker(work); ไม่สามารถพิจารณาตรงนี้ได้เพราะว่าบางครั้ง ก็ยังโหลด แผนที่ไม่เสร็จจึงทำให้ไม่สามารถหาจุด มาร์คในแผนที่ได้
+      this._renderWorkout(work);
+    });
+  }
+  reset() {
+    localStorage.removeItem('workouts'); // ลบข้อมูล
+    location.reload(); //location ตัวไว้จัดการเกี่ยวกับหน้าเบาเซอร์
   }
 }
 
 if (navigator.geolocation) {
   // เพื่อป้องกันการ Error จากการรองรับของเบาเซอร์จึงต้องมีการเช็คก่อนว่ามีคำสั่งนี้จริงหรือไม่
-  const app = new App();
+  app = new App();
 }
