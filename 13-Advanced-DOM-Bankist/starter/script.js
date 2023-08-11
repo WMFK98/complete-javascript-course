@@ -14,7 +14,6 @@ const openModal = function (e) {
   modal.classList.remove('hidden');
   overlay.classList.remove('hidden');
 };
-console.
 
 const closeModal = function () {
   modal.classList.add('hidden');
