@@ -1,6 +1,5 @@
 'use strict';
 
-
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 //whereAmI v2
@@ -17,7 +16,7 @@ const countriesContainer = document.querySelector('.countries');
 
 // }
 
-// const getCountData = function (country) { // use arrow function 
+// const getCountData = function (country) { // use arrow function
 
 //     getJSON(`https://restcountries.com/v2/name/${country}`)
 //         .then(data => {
@@ -42,7 +41,7 @@ const countriesContainer = document.querySelector('.countries');
 //         })
 // }
 // const renderCountry = function (data, className = '') {
-//     const html = ` 
+//     const html = `
 //     <article class="country ${className}">
 //     <img class="country__img" src="${data.flags.png}" />
 //     <div class="country__data">
@@ -56,7 +55,7 @@ const countriesContainer = document.querySelector('.countries');
 
 //     // console.log(html);
 //     countriesContainer.insertAdjacentHTML('beforeend', html)
-//     // countriesContainer.style.opacity = 1;
+//     countriesContainer.style.opacity = 1;
 
 // }
 
@@ -90,8 +89,7 @@ const countriesContainer = document.querySelector('.countries');
 //     })
 // }
 
-
-// getCountryAndNeighbour('usa')// สิ่งนี้จะเป็นทำงานแบบ asynchrobos ซึ่งหมายความว่าลำดับการทำงานที่ปรากฏในบางครั้งอาจจะไม่เรียงกันหาอันแรกยังโหลดไม่เสร็จ 
+// getCountryAndNeighbour('usa')// สิ่งนี้จะเป็นทำงานแบบ asynchrobos ซึ่งหมายความว่าลำดับการทำงานที่ปรากฏในบางครั้งอาจจะไม่เรียงกันหาอันแรกยังโหลดไม่เสร็จ
 // // getCountryData('usa')
 // getCountryAndNeighbour('thai')
 
@@ -110,14 +108,11 @@ const countriesContainer = document.querySelector('.countries');
 
 // }
 
-
-
 // btn.addEventListener('click', function () {
 //     getCountData('australia');
 // });
 
-
-//challenge 1 
+//challenge 1
 // const whereAmI = function (lat, lng) {
 //     fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
 //         .then(response => {
@@ -134,7 +129,6 @@ const countriesContainer = document.querySelector('.countries');
 //             return data.country;
 //         }).then(conuntry => getCountry(conuntry))
 //         .catch(err => console.error(`Something went wrong! ${err}`))
-
 
 // }
 // const getCountry = function (country) {
@@ -163,23 +157,19 @@ const countriesContainer = document.querySelector('.countries');
 //     countriesContainer.style.opacity = 1;
 // }
 
-
-
-
 // whereAmI(52.508, 13.381);
 // whereAmI(19.037, 72.873);
 // whereAmI(-33.933, 18.474);
 
 // //mirotask tes=======================
-// console.log('Test start'); // 
+// console.log('Test start'); //
 // setTimeout(() => console.log('0 sec timer'), 0) //ยังไม่ถูกทำงานจริง ได้ไปอยู่ที่ callback queue
 // Promise.resolve('Rsesolved promise 1').then(res => console.log(res))
-// Promise.resolve('Resolved promise 2').then(res => { //ตัวของ callback queue จะต้องรอไปเรื่อยเรื่อยจนกว่าอันนี้จะเสร็จ 
+// Promise.resolve('Resolved promise 2').then(res => { //ตัวของ callback queue จะต้องรอไปเรื่อยเรื่อยจนกว่าอันนี้จะเสร็จ
 //     for (let i = 0; i < 10000000000; i++) { }
 //     console.log(res);
 // })
 // console.log('Test end'); //เป็นแบบ sycronous  จึงทำเสร็จก่อน
-
 
 // //Building a Simple Promise========
 
@@ -189,7 +179,7 @@ const countriesContainer = document.querySelector('.countries');
 //         if (Math.random() >= 0.5) {
 //             resolve('You WIN')
 //         } else {
-//             reject(new Error('You lost your money')); //ถ้าใส่ Error จะมีการบอกว่าอยู่มันที่บรรทัดไหน 
+//             reject(new Error('You lost your money')); //ถ้าใส่ Error จะมีการบอกว่าอยู่มันที่บรรทัดไหน
 //         }
 //     }, 2000)
 
@@ -199,11 +189,11 @@ const countriesContainer = document.querySelector('.countries');
 
 const wait = function (seconds) {
     return new Promise(function (response) {
-        setTimeout(response, seconds * 1000)
-    })
-}
+        setTimeout(response, seconds * 1000);
+    });
+};
 // //
-// // ดูง่ายมากกว่าทำเป็น โคตพีระมิดแบบ setTimeOut 
+// // ดูง่ายมากกว่าทำเป็น โคตพีระมิดแบบ setTimeOut
 // wait(2)
 //     .then(() => { // เมื่อเราไม่ได้ใช้ค่า responseก็ไม่จำเป็นจะต้องใส่ก็ได้
 //         console.log('I waited for 1 sec')
@@ -227,7 +217,6 @@ const wait = function (seconds) {
 
 //Gelocation======================================
 
-
 // const whereAmIV2 = function () { // ใช้ gelocation
 //     getPosition().then(pos => {
 //         const { latitude: lat, longitude: lng } = pos.coords; //แทนค่าสองตัวแปรโดยเอาชื่อมาจาก Object; // อยู่ในปีกกาใช้เครื่องหมาย = ไม่ได้
@@ -248,7 +237,6 @@ const wait = function (seconds) {
 //             return data.country;
 //         }).then(conuntry => getCountry(conuntry))
 //         .catch(err => console.error(`Something went wrong! ${err}`))
-
 
 // }
 // const getPosition = function () {
@@ -285,27 +273,260 @@ const wait = function (seconds) {
 // btn.addEventListener('click', whereAmIV2())
 
 //====================================================
+//Challeng 2
+// const img = document.querySelector('.images');
+// const createImage = function (imgPath) {
+//     return new Promise(function (resolve, reject) {
+//         const addImage = document.createElement('img')
+//         addImage.src = imgPath
+//         addImage.addEventListener('load', () => resolve(addImage)) // ต้องมีรถก่อนไม่งั้นมันจะไม่รอภาพแล้วจะไปเลย
+//         addImage.addEventListener('error', () => reject(`Image path:${imgPath} not found`)) // ไว้หาตอนภาพไม่โหลด
+//     })
+//         .then(response => {
+//             img.append(response)
+//             return wait(2).then(() => response);
+//         })
 
-const img = document.querySelector('.images');
+//         .then(res => {
+//             res.style.display = 'none'
+//             console.log('end');
+//             return wait(2).then(() => res)
+//         }).catch(err => console.error(new Error(err)))
+// }
+
+// createImage('img/img-1.jpg').then(() => createImage('img/img-2.jpg')).then(() => createImage('img/img-3.jpg'));
+//====================================================
+const renderCountry = function (data, className = '') {
+    const html = ` 
+    <article class="country ${className}">
+    <img class="country__img" src="${data.flags.png}" />
+    <div class="country__data">
+      <h3 class="country__name">${data.name}</h3>
+      <h4 class="country__region">${data.region}</h4>
+      <p class="country__row"><span>👫</span>${(+data.population / 1000000).toFixed(1) + 'M'
+        } people</p>
+      <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
+      <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
+    </div>
+  </article>`;
+
+    // console.log(html);
+    countriesContainer.insertAdjacentHTML('beforeend', html);
+    countriesContainer.style.opacity = 1;
+};
+const getPosition = function () {
+    return new Promise(function (resolve, reject) {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+};
+// try catch เนื่องจากเมื่อทำแบบนี้จะไม่สามารถใช้ catch ต่อกันแบบเดิมได้แล้วเราจึงหันมาใช้ try catch แทน
+
+const renderError = function (mag) {
+    countriesContainer.insertAdjacentText('beforeend', mag); // เหมือนกับอินเสิชแต่ว่ารอบนี้เอาเป็นแค่ตัวหนังสือยัดเข้าไปเลย
+    // countriesContainer.style.opacity = 1;
+    // throw new Error(mag);
+};
+const getJSON = function (url, errMsg = 'Something went wrong') {
+    return fetch(url).then(response => {
+        // ที่ต้องส่งถ้ากลับตัวนี้เพราะจะได้ใช้ function ของ then ได้
+        if (!response.ok) throw new Error(`${errMsg} (${response.status})`);
+        return response.json();
+    });
+};
+const whereAMI = async function () {
+    try {
+        //ฟังชั้นนี้จะทำงานพื้นหลัง เพราะงั่นไม่ขวาง call stack แน่นอน
+        const pos = await getPosition();
+        const { latitude: lat, longitude: lng } = pos.coords;
+        const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+        if (!resGeo.ok) throw new Error(`Problem getting location data`);
+        const dataGeo = await resGeo.json();
+        console.log(dataGeo);
+
+        const res = await fetch(
+            `https://restcountries.com/v2/name/${dataGeo.country}`
+        ); //จะเป็นการเป็นการยุภายในฟังชั่นจะกว่าจะเสร็กค่อยไปต่อ
+        if (!dataGeo.country) throw new Error('Geocode was worng💥');
+        // console.log(res); // ได้ผลลัพธ์ respones ออกมาทันทีหากใช้โค๊ดกรณีนี้
+        const data = await res.json(); // ทำการแปลงตัว json
+        // console.log(data);
+        renderCountry(data[0]);
+        return `You are in ${dataGeo.city}, ${dataGeo.country}`; // ถ้าเกิด return ปกติน่าจะคืนค่า เป็น promise เพราะคำสั่งกำลังถูกทำงานอยู่
+    } catch (err) {
+        console.error(`${err} 💥`);
+        renderError(`Something went wrong 💥  ${err.message}`);
+        throw err; // ต้องใส่เพื่อให้เวลาที่ error มันจะได้ถูกโยนไป catch ต่ออีกทีเมื่อเรียกใช้
+    }
+};
+
+console.log(`1: Will get location`);
+// พี่ต้องทำการตรวจจับข้างนอกเนื่องจากมีการ return ค่าออกมาถึงแม้ว่าค่าเหล่านั้นจะเกิด Error ขึ้นภายในฟังก์ชันแต่มันก็จะ return ออกมาเป็น undifind ซึ่งเราต้องทำตัวรองรับข้อผิดพลาดนั้นอีกที
+// ปิดที่แบบผสม แบบเก่าและแบบใหม่=============================================
+// const city = whereAMI();
+// console.log(city);//Promise
+// whereAMI()
+//     .then(city => console.log(`2: ${city}`))
+//     .catch(err => console.error(`2: ${err}`))
+//     .finally(() => console.log(`3: Will get location`));//ใช้ then เพื่อรับค่า return จาก ascy
+// // เออเร่อที่มาจาก throw err จะถูกส่งมาที่ catch
+
+//async วิธีใช้แบบใหม่=======================================
+// (async function () {
+//     // เนื่องจาก try catch จะทำงานได้แค่เฉพาะใน function เท่านั้นดังนั้นจึงต้องสร้างฟังก์ชั่นที่เป็นแบบ IEFF ซึ่งจะใช้งานได้เพียงครั้งเดียว เหมือน run คำสั่งปกติ จากนั้น จึงค่อยใช้ await และtry catch
+//     try {
+//         const city = await whereAMI();
+//         console.log(`2: ${city}`);
+//         //ใช้ then เพื่อรับค่า return จาก ascy
+//     } catch (err) {
+//         console.error(`2: ${err}`);
+//     }
+//     console.log(`3: Will get location`);
+// })();
+
+//=======================
+// const get3Countries = async function (c1, c2, c3) {
+//     try {
+//         // แบบขั้นตอนด้านล่างนี้จะเป็นการเดิมพันแบบต้องรอทีละตัวหรือเป็นการรันแบบ sequne  ซึ่งถือว่าใช้เวลานานในการโหลดเว็บไซต์
+//         const [data1] = await getJSON(
+//             `https://restcountries.com/v2/name/${c1}`
+//         )
+//         const [data2] = await getJSON(
+//             `https://restcountries.com/v2/name/${c2}`
+//         )
+//         const [data3] = await getJSON(
+//             `https://restcountries.com/v2/name/${c3}`
+//         )
+
+//         const datas = await Promise.all([ // เป็นการ ทำงานแบบ parallel
+//             getJSON(`https://restcountries.com/v2/name/${c1}`),
+//             getJSON(`https://restcountries.com/v2/name/${c2}`),
+//             getJSON(`https://restcountries.com/v2/name/${c3}`),
+//         ])
+//         console.log();
+//         // datas.forEach(([data]) => console.log(data.capital))
+//         console.log(datas.map(d => d[0].capital))
+//         // console.log(data1.capital, data2.capital, data3.capital);
+
+//     } catch (err) {
+//         console.error(err);
+
+//     }
+// }
+
+// get3Countries('usa', 'thai', 'canada')
+
+
+//======================== Promise.race // การแข่งขันกัน ถ้าตัวไหนโหลดเสร็จก่อนมันจะเอาตัวนั้นไป เป็นคำตอบส่วนตัวอื่นก็ปัดทิ้ง 
+// const timeout = function (sec) {
+//     return new Promise(function (_, reject) {
+//         setTimeout(function () {
+//             reject(new Error("Request took too long"))
+//         }, sec * 1000)
+//     })
+// }
+
+// Promise.race([ // ไว้ใช้สำหรับเวลาโหลดนานหรือว่าสัญญาณไม่ดีก็ให้ตัดทิ้งไปเลย
+//     getJSON(`https://restcountries.com/v2/name/thai`),
+//     timeout(1)
+// ]).then(res => console.log(res[0])).catch(err => console.err(err))
+
+// //======================= Promise.allSettled
+// Promise.allSettled([ // เป็นตัวใหม่ของ es2020 ไม่ว่า promise ่นั้นจะผิดพลาดหรือไม่ มันก็จะถูกเก็บเป็น array
+//     Promise.resolve('Sucess'),
+//     Promise.reject('Error'),
+//     Promise.resolve('Sucess')
+// ]).then(res => console.log(res)).catch((err) => console.error(err)) // แสดงว่าตัวของ catch จะไม่ทำงาน
+
+// Promise.all([ // ต่างจากตัวนี้พี่ถ้าเกิดมันผิดพลาดก็จะเด้งออกมาทันทีเหมือนไฟฟ้าลัดวงจร
+//     Promise.resolve('Sucess'),
+//     Promise.reject('Error'),
+//     Promise.resolve('Sucess')
+// ]).then(res => console.log(res)).catch((err) => console.error(err))
+
+// //======================= Promise.any
+
+// Promise.any([ // ต่างจากตัวนี้พี่ถ้าเกิดมันผิดพลาดก็จะเด้งออกมาทันทีเหมือนไฟฟ้าลัดวงจร
+//     Promise.resolve('Sucess'),
+//     Promise.reject('Error'),
+//     Promise.resolve('another Sucess')
+// ]).then(res => console.log(res)).catch((err) => console.log(err))
+
+//Challeng 3
+
+const imgContainer = document.querySelector('.images');
+
 const createImage = function (imgPath) {
     return new Promise(function (resolve, reject) {
-        const addImage = document.createElement('img')
-        addImage.src = imgPath
-        addImage.addEventListener('load', () => resolve(addImage)) // ต้องมีรถก่อนไม่งั้นมันจะไม่รอภาพแล้วจะไปเลย
-        addImage.addEventListener('error', () => reject(`Image path:${imgPath} not found`)) // ไว้หาตอนภาพไม่โหลด
-    })
-        .then(response => {
-            img.append(response)
-            return wait(2).then(() => response);
-        })
+        const img = document.createElement('img');
+        img.src = imgPath;
 
-        .then(res => {
-            res.style.display = 'none'
-            console.log('end');
-            return wait(2).then(() => res)
-        }).catch(err => console.error(new Error(err)))
+        img.addEventListener('load', function () {
+            imgContainer.append(img);
+            resolve(img);
+        });
+
+        img.addEventListener('error', function () {
+            reject(new Error('Image not found'));
+        });
+    });
+};
+
+let currentImg;
+// แบบเก่า
+// createImage('img/img-1.jpg')
+//     .then(img => {
+//         currentImg = img;
+//         console.log('Image 1 loaded');
+//         return wait(2);
+//     })
+//     .then(() => {
+//         currentImg.style.display = 'none';
+//         return createImage('img/img-2.jpg');
+//     })
+//     .then(img => {
+//         currentImg = img;
+//         console.log('Image 2 loaded');
+//         return wait(2);
+//     })
+//     .then(() => {
+//         currentImg.style.display = 'none';
+//     })
+//     .catch(err => console.error(err));
+
+// แบบใหม่
+const loadNPeuse = async function () {
+    try {
+        let currentImg
+        currentImg = await createImage('img/img-1.jpg')
+        console.log('Image 1 loaded');
+        await wait(2)
+        currentImg.style.display = 'none'
+        await wait(2)
+
+        currentImg = await createImage('img/img-2.jpg')
+        console.log('Image 2 loaded');
+        await wait(2)
+        currentImg.style.display = 'none'
+        await wait(2)
+
+        currentImg = await createImage('img/img-3.jpg')
+        console.log('Image 3 loaded');
+        await wait(2)
+        currentImg.style.display = 'none'
+        await wait(2)
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+// loadNPeuse();
+
+const loadAll = async function (imgArr) {
+    const imgs = imgArr.map(img => createImage(img))
+    console.log(imgs);
+    const all = await Promise.all(imgs)
+    all.forEach(img => img.classList.add('parallel'))
+
 }
 
-createImage('img/img-1.jpg').then(() => createImage('img/img-2.jpg')).then(() => createImage('img/img-3.jpg'));
-
-
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg'])
