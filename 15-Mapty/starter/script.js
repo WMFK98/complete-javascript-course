@@ -63,6 +63,8 @@ const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
+const btnDelAll = document.querySelector('.btn-delete-all');
+const interfaceWorkout = document.querySelectorAll('li');
 
 class App {
   #map;
@@ -75,6 +77,7 @@ class App {
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField); // พี่อันนี้ไม่ต้องใส่ bind เพราะข้างในนั้นไม่ได้มีการอ้างอิงถึง this คีย์ Word
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+    btnDelAll.addEventListener('click', () => this._deleateAll());
   }
   _getPosition() {
     navigator.geolocation.getCurrentPosition(
@@ -286,6 +289,12 @@ class App {
       // this._renderWorkoutMarker(work); ไม่สามารถพิจารณาตรงนี้ได้เพราะว่าบางครั้ง ก็ยังโหลด แผนที่ไม่เสร็จจึงทำให้ไม่สามารถหาจุด มาร์คในแผนที่ได้
       this._renderWorkout(work);
     });
+  }
+  _deleateAll() {
+    localStorage.removeItem('workouts'); // ลบข้อมูล
+    interfaceWorkout.forEach(work => work.remove());
+
+    location.reload(); //location ตัวไว้จัดการเกี่ยวกับหน้าเบาเซอร์
   }
   reset() {
     localStorage.removeItem('workouts'); // ลบข้อมูล
