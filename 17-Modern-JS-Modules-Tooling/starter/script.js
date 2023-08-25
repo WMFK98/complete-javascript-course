@@ -8,7 +8,7 @@
 // // console.log(price, tq);
 // // console.log('Importing module');
 // // // แม้จะอยู่ข้างใต้ก็ยังจะถูกrunก่อนเสมอ
-// import * as ShoppingCart from './shoppingCart.js' // เป็นการสร้างอ๊อฟเจ็กที่เอาทุกอย่างในตัวของ export มาสร้างเป็นชื่อของ ShoppingCart 
+// import * as ShoppingCart from './shoppingCart.js' // เป็นการสร้างอ๊อฟเจ็กที่เอาทุกอย่างในตัวของ export มาสร้างเป็นชื่อของ ShoppingCart
 
 // ShoppingCart.addToCart('bread', 5);
 
