@@ -8,7 +8,7 @@
 // // console.log(price, tq);
 // // console.log('Importing module');
 // // // แม้จะอยู่ข้างใต้ก็ยังจะถูกrunก่อนเสมอ
-// import * as ShoppingCart from './shoppingCart.js' // เป็นการสร้างอ๊อฟเจ็กที่เอาทุกอย่างในตัวของ export มาสร้างเป็นชื่อของ ShoppingCart 
+// import * as ShoppingCart from './shoppingCart.js' // เป็นการสร้างอ๊อฟเจ็กที่เอาทุกอย่างในตัวของ export มาสร้างเป็นชื่อของ ShoppingCart
 
 // ShoppingCart.addToCart('bread', 5);
 
@@ -16,7 +16,7 @@
 // add('pizza', 2);
 // add('bread', 5)
 
-// // console.log(...cart); // ผลลัพธ์ที่ออกมาคือจะเก็บข้อมูลทั้งหมดที่ถูก add เอาไว้ดังนั้นแต่ว่าข้อมูลที่เรา export มานั้นไม่ใช่ก๊อปปี้แต่เป็นการเชื่อมกัน
+// console.log(...cart); // ผลลัพธ์ที่ออกมาคือจะเก็บข้อมูลทั้งหมดที่ถูก add เอาไว้ดังนั้นแต่ว่าข้อมูลที่เรา export มานั้นไม่ใช่ก๊อปปี้แต่เป็นการเชื่อมกัน
 
 // //===============level await
 // // //await โดยปกติจะต้องใช้ใน asnyc function เท่านั้นแต่ว่าในเวอร์ชั่นใหม่ ES2022 เราสามารถใช้ใน top-level ได้แล้วเฉพาะใน "Module"
@@ -38,18 +38,53 @@
 // //============================
 // //npm init สร้าง package.json
 // //npm i ____ ติดตั้งโมดู
+
+//importCloneDeep
 // import cloneDeep from './node_modules/lodash-es/cloneDeep.js'
+// import cloneDeep from 'lodash-es'
+import cloneDeep from 'lodash-es';
 
-// const state = {
-//     cart: [
-//         { product: "bread", quantity: 5 },
-//         { product: "pizza", quantity: 5 }],
+const state = {
+    cart: [
+        { product: 'bread', quantity: 5 },
+        { product: 'pizza', quantity: 5 },
+    ],
 
-//     user: { loggedIn: true }
+    user: { loggedIn: true },
+};
+
+const stateClone = Object.assign({}, state); // คำสั่งไว้ก๊อปปี้แต่ถ้าเป็นแบบนี้เมื่อเปลี่ยนตัวใดตัวหนึ่งข้อมูลทั้งสองก็จะเปลี่ยน
+const stateCloneDeep = cloneDeep(state);
+state.user.loggedIn = false;
+console.log(stateClone);
+console.log(stateCloneDeep); // ตัวนี้จะช่วยให้เราประหยัดและมากขึ้นจาก module
+
+// class Person {
+//     geetting = "hey"
+//     constructor(name) {
+//         this.name = name;
+//         console.log(`${this.geetting}, ${this.name}`);
+//     }
 // }
 
-// const stateClone = Object.assign({}, state) // คำสั่งไว้ก๊อปปี้แต่ถ้าเป็นแบบนี้เมื่อเปลี่ยนตัวใดตัวหนึ่งข้อมูลทั้งสองก็จะเปลี่ยน
-// const stateCloneDeep = cloneDeep(state)
-// state.user.loggedIn = false;
-// console.log(stateClone);
-// console.log(stateCloneDeep); // ตัวนี้จะช่วยให้เราประหยัดและมากขึ้นจาก module
+// const jonas = new Person('fluke')
+
+
+if (module.hot) {
+    module.hot.accept(); // สิ่งนี้จะช่วยให้เมื่อมีการแก้ไขตัวของ parcel
+}
+const hello = () => console.log("hello");
+
+// มันคือคำสั่งทั่วไป java
+// เพื่อ ให้ รุ่นเก่า ได้ เอา ตัวนี้ ไป ใช้         
+import 'core-js/stable/array/find'
+import 'core-js/stable/promise'
+// สำหรับ ascyc
+import 'regenerator-runtime'
+console.log(cart.find(el => el.qunatity >= 2));
+// console.log("fluke" ?? null);
+
+Promise.resolve('TEST').then((x) => console.log(x))// สิ่งนี้จะไม่ได้ถูกแก้ไขเพราะไม่สามารถหาตัวที่จะมาแทนที่ได้อย่าง var และ const
+
+
+

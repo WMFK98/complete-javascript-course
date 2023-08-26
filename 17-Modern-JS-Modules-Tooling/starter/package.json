@@ -2,7 +2,7 @@
   "name": "starter",
   "version": "1.0.0",
   "description": "",
-  "main": "clean.js",
+  "main": "script.js",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html"
@@ -10,7 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "core-js": "^3.6.5",
     "leaflet": "^1.9.4",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "parcel": "^1.12.3",
+    "regenerator-runtime": "^0.14.0"
   }
 }
