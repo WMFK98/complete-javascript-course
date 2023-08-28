@@ -26,23 +26,22 @@ const addExpense = function (value, description, user = 'jonas') {
   // }
 
   if (value <= getLimit(user)) {
-    budget.push({ value: -value, description, user });ไม่ต้องใส่ : //เพื่มก็ได้ถ้าเป็นตัวเียวกัน
+    budget.push({ value: -value, description, user }); //ไม่ต้องใส่เพื่มก็ได้ถ้าเป็นตัวเียวกัน
   }
-}
+};
 addExpense(10, 'Pizza 🍕');
 addExpense(100, 'Going to movies 🍿', 'Matilda');
-addExpense(200, 'Stuff', 'Jay');
+addExpense(2000, 'Stuff', 'Jay');
 console.log(budget);
 
 const checkExpens = function () {
-  budget.forEach(entry =>{
+  budget.forEach(entry => {
     // let lim = spendingLimits?.[entry?.user] ?? 0;
-    if (entry.value < -getLimit(user)) {
+    if (entry.value < -getLimit(entry.user)) {
       entry.flag = 'limit';
     }
-  })
-}
-
+  });
+};
 
 //   for (const entry of budget) {
 //     let limit;
@@ -57,18 +56,20 @@ const checkExpens = function () {
 //     }
 //   }
 // };
-check();
+checkExpens();
 
 console.log(budget);
 
-const bigExpenses = function (limit) {
+const logBigExpenses = function (bigLimit) {
   let output = '';
-  for (const el of budget) {
-    if (el.value <= -limit) {
-      output += el.description.slice(-2) + ' / '; // Emojis are 2 chars
-    }
+  for (const entry of budget) {
+    output += entry.value <= -bigLimit ? entry.description.slice(-2) : '';
+    // if (entry.value <= -bigLimit) {
+    //   output += `${entry.description.slice(-2)} /`; // Emojis are 2 chars
+    // }
   }
   output = output.slice(0, -2); // Remove last '/ '
   console.log(output);
 };
-}
+
+logBigExpenses(2000);
