@@ -37,39 +37,40 @@ console.log(budget);
 
 const checkBudget2 = function (state, limits) {
   return state.map(entry => entry.value < -getLimit(limits) ? { ...entry, flag: 'limit' } : entry);
-
-
-  // for (const entry of budget) {
-
-  //   if (entry.value < -getLimit(entry.user)) {
-  //     entry.flag = 'limit';
-  //   }
-  // }
-};
-
-const checkBudget = (state, limits) =>
-  state.map(entry => entry.value < -getLimit(limits) ? { ...entry, flag: 'limit' } : entry);
-
-console.log(b1);
-console.log("V");
-console.log(checkBudget(b1, spendingLimits));
-
+}
+addExpense(10, 'Pizza 🍕');
+addExpense(100, 'Going to movies 🍿', 'Matilda');
+addExpense(200, 'Stuff', 'Jay');
 console.log(budget);
 
-const logBigExpenses = (limit, state) => state
-  .filter(entry => entry.value <= -limit)
-  // .map(entry => entry.description.slice(-2))
-  // .join(" / ");
-  .reduce((str, cur) => `${str} / ${cur.description.slice(-2)}`, '')
+const checkExpens = function () {
+  budget.forEach(entry => {
+    // let lim = spendingLimits?.[entry?.user] ?? 0;
+    if (entry.value < -getLimit(user)) {
+      entry.flag = 'limit';
+    }
+  })
+}
+
 
 // let output = '';
 // for (const entry of budget) {
 //   if (entry.value <= -limit) {
 //     output += `${entry.description.slice(-2)} / `; // Emojis are 2 chars
 //   }
-// }
-// output = output.slice(0, -2); // Remove last '/ '
-// console.log(output);
-const l1 = logBigExpenses(1000, b1)
-console.log(l1);
+// };
+check();
+
+console.log(budget);
+
+const bigExpenses = function (limit) {
+  let output = '';
+  for (const el of budget) {
+    if (el.value <= -limit) {
+      output += el.description.slice(-2) + ' / '; // Emojis are 2 chars
+    }
+  }
+  output = output.slice(0, -2); // Remove last '/ '
+  console.log(output);
+};
 

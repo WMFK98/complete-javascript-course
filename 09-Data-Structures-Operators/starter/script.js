@@ -333,97 +333,98 @@ restaurant.oderDelivery({
 // }
 
 // Coding Challenge #2 ======================================================================
-// const game = {
-//   team1: 'Bayern Munich',
-//   team2: 'Borrussia Dortmund',
-//   players: [
-//     [
-//       'Neuer',
-//       'Pavard',
-//       'Martinez',
-//       'Alaba',
-//       'Davies',
-//       'Kimmich',
-//       'Goretzka',
-//       'Coman',
-//       'Muller',
-//       'Gnarby',
-//       'Lewandowski',
-//     ],
-//     [
-//       'Burki',
-//       'Schulz',
-//       'Hummels',
-//       'Akanji',
-//       'Hakimi',
-//       'Weigl',
-//       'Witsel',
-//       'Hazard',
-//       'Brandt',
-//       'Sancho',
-//       'Gotze',
-//     ],
-//   ],
-//   score: '4:0',
-//   scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
-//   date: 'Nov 9th, 2037',
-//   odds: {
-//     team1: 1.33,
-//     x: 3.25,
-//     team2: 6.5,
-//   },
-// };
-// for (const [goal, player] of game.scored.entries()) {
-//   //entries()
-//   //ถ้าเป็น array จะบอกลำดับด้วย
-//   console.log(`Goal ${Number(goal) + 1}: ${player}`);
-// }
-// const odds = Object.values(game.odds);
-// let averages = 0;
-// for (const iterator of odds) {
-//   averages += iterator;
-// }
-// averages /= odds.length;
-// console.log(averages);
-// // Odd of victory Bayern Munich: 1.33
-// // Odd of draw: 3.25
-// // Odd of victory Borrussia Dortmund: 6.5
+const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+for (const [goal, player] of game.scored.entries()) {
+  //entries()
+  //ถ้าเป็น array จะบอกลำดับด้วย
+  console.log(`Goal ${Number(goal) + 1}: ${player}`);
+}
+const odds = Object.values(game.odds);
+let averages = 0;
+for (const iterator of odds) {
+  averages += iterator;
+}
+averages /= odds.length;
+console.log(averages);
+// Odd of victory Bayern Munich: 1.33
+// Odd of draw: 3.25
+// Odd of victory Borrussia Dortmund: 6.5
 
-// for (const [team, x] of Object.entries(game.odds)) {
-//   const teamStr = team === 'x' ? 'draw' : `${game[team]}`;
-//   console.log(`Odd of victory ${teamStr} : ${x}`); //* */
-// }
+for (const [team, x] of Object.entries(game.odds)) {
+  const teamStr = (team === 'x' ? 'draw' : `${game[team]}`);
+  console.log(`Odd of victory ${teamStr} : ${x}`); //* */
+}
 
-// const scored = game.scored;
-// // scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
-// const scorers = {};
+const scored = game.scored;
+// scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+const scorers = {};
 
-// for (const x of scored) {
-//   scorers[x] = (scorers[x] || 0) + 1; //scorers[x] ใสค่าตัวเดมให้มันเลยพอเจอตัวซ้ำก็วางทับ // = ถ้ามันไม่มีให้ครั้งแรกเป็น 0 ละ +1
-// }
-// console.log(scorers);
+for (const x of scored) {
+  scorers[x] = (scorers[x] || 0) + 1; //scorers[x] ใสค่าตัวเดมให้มันเลยพอเจอตัวซ้ำก็วางทับ // = ถ้ามันไม่มีให้ครั้งแรกเป็น 0 ละ +1
+}
+console.log(scorers);
 
 // Sets ======================================================================
 
-// const thisSet = new Set(['pizza', 'pizza', 'egg', 'pizza', 'becon']);
-// const gg = [];
+const thisSet = new Set(['pizza', 'pizza', 'egg', 'pizza', 'becon']);
+const gg = [];
+console.log(thisSet);
+console.log(thisSet.size); // =  Arrary.langht
+console.log(thisSet.has('pizza')); //= Arrary.includes
+// thisSet.clear(); //ล้าง set
 // console.log(thisSet);
-// console.log(thisSet.size); // =  Arrary.langht
-// console.log(thisSet.has('pizza')); //= Arrary.includes
-// // thisSet.clear(); //ล้าง set
-// // console.log(thisSet);
 
-// for (const i of thisSet) {
-//   console.log(i);
-// }
+for (const i of thisSet) {
+  console.log(i);
+}
 
-// const thisArr = ['pizza', 'pizza', 'egg', 'pizza', 'becon'];
-// const toSet = [...new Set(thisArr)];
-// console.log(toSet);
+const thisArr = ['pizza', 'pizza', 'egg', 'pizza', 'becon'];
+const toSet = [...new Set(thisArr)];
+console.log(toSet);
 
-// Maps ======================================================================
+// // Maps ======================================================================
 // categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
-// const rest = new Map(); //สามารถ มี key ได้ทุก type
+// const rest1 = new Map(); //สามารถ มี key ได้ทุก type
+
 // rest
 //   .set('name', 'Classico Italiano') //set ค้า
 //   .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
@@ -446,7 +447,7 @@ restaurant.oderDelivery({
 // rest.set([1, 2], 'notSame');
 
 // console.log(rest.get([1, 2])); //undefined เพราะตัวของ obj ที่สร้างขึ้นอยู่ใน heep เป็นคนละตัวกัน
-// Maps: Iteration  ======================================================================
+// // Maps: Iteration  ======================================================================
 // const question = new Map([
 //   ['question', 'what is the best programming language in the world?'],
 //   [1, 'C'],
