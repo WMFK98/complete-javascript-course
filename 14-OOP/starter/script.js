@@ -3,7 +3,6 @@
 const Person = function (firstName, birthYear) {
   this.firstName = firstName;
   this.birthYear = birthYear;
-
   //   this.calAge = function () {
   //     // ไม่ดีพอจะเป็นการใช้ทรัพยากรที่มากเนื่องจากลูกค้างที่สร้างต้องมาสร้างฟังก์ชั่นใหม่แบบนี้ตลอด
   //     console.log(2022 - this.birthYear);
