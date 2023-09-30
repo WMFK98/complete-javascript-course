@@ -9,34 +9,36 @@ import recipeView from './view/recipeView.js';
 
 const recipeContainer = document.querySelector('.recipe');
 
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-};
-
 // https://forkify-api.herokuapp.com/v2
 
 ///////////////////////////////////////
 
 const controlRecipe = async function () {
-  const id = window.location.hash.slice(1); // เอาค่าของ hash ซึ่งคือถ้า /#...
-  console.log(id);
-  if (!id) return;
-  recipeView.renderSpinner(); //เอาไว้ทำระหว่างรอโหลด
-  //1) Loading recipe
-
-  await model.loadRecipe(id);
-  // const { recipe } = model.state;
-  //2) Rendering recipe
-  recipeView.render(model.state.recipe); // ส่งค่าให้ data
-  // const recipeView = new recipeView(model.state.recipe) // ความหมายเดียวกันกับตัวบนก็คือเอาไปสร้างอ๊อฟเจ็กในที่นี้
+  try {
+    const id = window.location.hash.slice(1); // เอาค่าของ hash ซึ่งคือถ้า /#...
+    console.log(id);
+    if (!id) return;
+    recipeView.renderSpinner(); //เอาไว้ทำระหว่างรอโหลด
+    //1) Loading recipe
+    await model.loadRecipe(id);
+    // const { recipe } = model.state;
+    //2) Rendering recipe
+    recipeView.render(model.state.recipe); // ส่งค่าให้ data
+    // const recipeView = new recipeView(model.state.recipe) // ความหมายเดียวกันกับตัวบนก็คือเอาไปสร้างอ๊อฟเจ็กในที่นี้
+  } catch (err) {
+    recipeView.renderError();
+  }
+};
+// สิ่งที่จะทำงานเมื่อเริ่มต้น controller
+const init = function () {
+  recipeView.addHandlerRender(controlRecipe);
 };
 
-['hashchange', 'load'].forEach(ev =>
-  window.addEventListener(ev, controlRecipe)
-);
+init();
+// ฟังก์ชันนี้เนื่องจากเป็นการทำงานร่วมกับดองจึงไม่ควรจะมาอยู่ controller but ควรไปอยู่ใน viewแทน
+// ['hashchange', 'load'].forEach(ev =>
+//   window.addEventListener(ev, controlRecipe)
+// );
+
 // window.addEventListener('hashchange', controlRecipe); // ทำงานเมื่อเปลี่ยน hash
 // window.addEventListener('load', controlRecipe); // ทำงานเมื่อโหลดหน้าเว็บ
