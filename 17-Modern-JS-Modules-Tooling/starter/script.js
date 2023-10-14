@@ -45,12 +45,12 @@
 import cloneDeep from 'lodash-es';
 
 const state = {
-    cart: [
-        { product: 'bread', quantity: 5 },
-        { product: 'pizza', quantity: 5 },
-    ],
+  cart: [
+    { product: 'bread', quantity: 5 },
+    { product: 'pizza', quantity: 5 },
+  ],
 
-    user: { loggedIn: true },
+  user: { loggedIn: true },
 };
 
 const stateClone = Object.assign({}, state); // คำสั่งไว้ก๊อปปี้แต่ถ้าเป็นแบบนี้เมื่อเปลี่ยนตัวใดตัวหนึ่งข้อมูลทั้งสองก็จะเปลี่ยน
@@ -69,22 +69,18 @@ console.log(stateCloneDeep); // ตัวนี้จะช่วยให้เ
 
 // const jonas = new Person('fluke')
 
-
 if (module.hot) {
-    module.hot.accept(); // สิ่งนี้จะช่วยให้เมื่อมีการแก้ไขตัวของ parcel
+  module.hot.accept(); // สิ่งนี้จะช่วยให้เมื่อมีการแก้ไขตัวของ parcel ทำให้ไม่ต้องหลบหน้าใหม่ทุกครั้ง
 }
-const hello = () => console.log("hello");
+const hello = () => console.log('hello');
 
 // มันคือคำสั่งทั่วไป java
-// เพื่อ ให้ รุ่นเก่า ได้ เอา ตัวนี้ ไป ใช้         
-import 'core-js/stable/array/find'
-import 'core-js/stable/promise'
+// เพื่อ ให้ รุ่นเก่า ได้ เอา ตัวนี้ ไป ใช้
+import 'core-js/stable/array/find';
+import 'core-js/stable/promise';
 // สำหรับ ascyc
-import 'regenerator-runtime'
+import 'regenerator-runtime';
 console.log(cart.find(el => el.qunatity >= 2));
 // console.log("fluke" ?? null);
 
-Promise.resolve('TEST').then((x) => console.log(x))// สิ่งนี้จะไม่ได้ถูกแก้ไขเพราะไม่สามารถหาตัวที่จะมาแทนที่ได้อย่าง var และ const
-
-
-
+Promise.resolve('TEST').then(x => console.log(x)); // สิ่งนี้จะไม่ได้ถูกแก้ไขเพราะไม่สามารถหาตัวที่จะมาแทนที่ได้อย่าง var และ const

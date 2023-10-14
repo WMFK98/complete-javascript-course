@@ -5,18 +5,22 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import * as model from './model.js'; // จะได้เป็น obj model ที่มีค่าของ export ทั้งหมด
 import recipeView from './view/recipeView.js';
-import recipeView from './view/recipeView.js';
+import searchView from './view/searchView.js';
+import resultsView from './view/resultsView.js';
+import { async } from 'regenerator-runtime';
 
 const recipeContainer = document.querySelector('.recipe');
 
 // https://forkify-api.herokuapp.com/v2
 
 ///////////////////////////////////////
+// if (module.hot) {
+//   module.hot.accept(); // สิ่งนี้จะช่วยให้เมื่อมีการแก้ไขตัวของ parcel ทำให้ไม่ต้องหลบหน้าใหม่ทุกครั้ง
+// }
 
 const controlRecipe = async function () {
   try {
     const id = window.location.hash.slice(1); // เอาค่าของ hash ซึ่งคือถ้า /#...
-    console.log(id);
     if (!id) return;
     recipeView.renderSpinner(); //เอาไว้ทำระหว่างรอโหลด
     //1) Loading recipe
@@ -29,9 +33,26 @@ const controlRecipe = async function () {
     recipeView.renderError();
   }
 };
+const controlSearchResults = async function () {
+  try {
+    resultsView.renderSpinner();
+    //1 getQuery
+    const query = searchView.getQuery();
+    if (!query) return;
+    //2 load
+    await model.loadSearchResults(query); // รันเพื่อให้เอาไปเก็บใน state
+    //3 render
+    resultsView.render(model.state.search.results);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 // สิ่งที่จะทำงานเมื่อเริ่มต้น controller
 const init = function () {
+  // เอาไว้จัดการ addlisterner
   recipeView.addHandlerRender(controlRecipe);
+  searchView.addHandlerSearch(controlSearchResults);
 };
 
 init();

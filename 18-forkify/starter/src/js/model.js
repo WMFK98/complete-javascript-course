@@ -4,6 +4,10 @@ import { getJSON } from './helpers';
 export const state = {
   // ตะกร้าเตรียมใส่
   recipe: {},
+  search: {
+    query: '', //ค้นหา
+    results: [], // เจ็บข้อมูลที่ค้นหาเจอ
+  },
 };
 
 export const loadRecipe = async function (id) {
@@ -20,7 +24,7 @@ export const loadRecipe = async function (id) {
       ingredients: recipe.ingredients,
       image: recipe.image_url,
     };
-    console.log(state.recipe);
+    // console.log(state.recipe);
   } catch (err) {
     console.error(err);
     throw err; // ส่งไปให้ดักจับที่ controller
@@ -29,6 +33,18 @@ export const loadRecipe = async function (id) {
 
 export const loadSearchResults = async function (query) {
   try {
-    const data = await getJSON(`${API_URL}/recipes?search=${query}`);
+    state.search.query = query;
+    const data = await getJSON(`${API_URL}?search=${query}`);
+    const { recipes } = data.data;
+    state.search.results = recipes.map(rec => {
+      return {
+        id: rec.id,
+        title: rec.title,
+        publisher: rec.publisher,
+        image: rec.image_url,
+      };
+    });
   } catch (err) {}
 };
+
+loadSearchResults('pizza');
