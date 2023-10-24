@@ -7,6 +7,7 @@ import * as model from './model.js'; // จะได้เป็น obj model �
 import recipeView from './view/recipeView.js';
 import searchView from './view/searchView.js';
 import resultsView from './view/resultsView.js';
+import paginationView from './view/paginationView.js';
 import { async } from 'regenerator-runtime';
 
 const recipeContainer = document.querySelector('.recipe');
@@ -42,17 +43,25 @@ const controlSearchResults = async function () {
     //2 load
     await model.loadSearchResults(query); // รันเพื่อให้เอาไปเก็บใน state
     //3 render
-    resultsView.render(model.state.search.results);
+    resultsView.render(model.getSearchResultsPage());
+    paginationView.render(model.state.search);
   } catch (err) {
     console.log(err);
   }
 };
 
+const controllerPagination = function (goToPage) {
+  resultsView.render(model.getSearchResultsPage(goToPage)); // โหลดตัวผลลัพธ์ใหม่
+  paginationView.render(model.state.search); // โหลดตัวปุ่มใหม่
+};
+
 // สิ่งที่จะทำงานเมื่อเริ่มต้น controller
+
 const init = function () {
   // เอาไว้จัดการ addlisterner
   recipeView.addHandlerRender(controlRecipe);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerClick(controllerPagination);
 };
 
 init();

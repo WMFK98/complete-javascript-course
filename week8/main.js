@@ -70,7 +70,7 @@ const students = [
   {
     name: 'b',
     attendance: [true, true, false, true, true],
-    testScore: [50, 60, 70, 90, 90],
+    testScore: [60, 100, 80, 90, 90],
   },
   {
     name: 'c',
@@ -85,20 +85,27 @@ const students = [
 ];
 
 const getAttendanceRate = function ({ attendance }) {
-  const present = attendance.filter((istrue) => istrue).length;
-  return (present / attendance.length) * 100;
+  const countPresent = attendance.filter((istrue) => istrue).length;
+  return (countPresent / attendance.length) * 100;
 };
 
 const getAvgScore = ({ testScore }) =>
   testScore.reduce((sum, score) => sum + score, 0) / testScore.length;
 
-const underPerformStudent = (student) => {
-  return {
-    name: student.name,
-    attendanceRate: getAttendanceRate(student),
-    avgScore: getAvgScore(student),
-  };
+const underPerformStudent = (studentsAll) => {
+  const result = studentsAll
+    .map((student) => {
+      return {
+        name: student.name,
+        attendanceRate: getAttendanceRate(student),
+        avgScore: getAvgScore(student),
+      };
+    })
+    .filter((student) => student.avgScore >= 80);
+  return result;
 };
+
+console.log(underPerformStudent(students));
 
 // function geeting() {
 //   return 'hello';
