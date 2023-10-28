@@ -171,3 +171,27 @@ const {
 } = school;
 
 console.log(firstname);
+
+function createCounter() {
+  let count = 0;
+  return {
+    increment: function () {
+      count++;
+    },
+    decrement: function () {
+      count--;
+    },
+    getCount: function () {
+      return count;
+    },
+  };
+}
+
+let counter = createCounter();
+
+counter.increment();
+counter.getCount();
+
+let counter2 = createCounter();
+counter2.decrement();
+console.log(counter2.getCount());
