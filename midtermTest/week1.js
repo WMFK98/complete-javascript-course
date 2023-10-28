@@ -5,8 +5,6 @@
 // };
 // console.log(person);
 
-const { flattenOptionGroups } = require('@mui/base');
-
 // const personPrototype = {
 //   greet: function () {
 //     console.log('Hello!');
@@ -75,5 +73,3 @@ const { flattenOptionGroups } = require('@mui/base');
 // console.log(array2);
 // array2.push(5);
 // console.log(array2);
-
-console.log(typeof this);
