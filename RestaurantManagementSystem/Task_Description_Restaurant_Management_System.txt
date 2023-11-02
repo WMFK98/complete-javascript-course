@@ -1,0 +1,32 @@
+Task Description: Restaurant Management System
+
+You are tasked with creating a Restaurant Management System in JavaScript. This system should allow you to manage a menu, take customer orders, and calculate the total bill. The code should be organized into different modules for better code structure.
+
+Requirements:
+
+Menu Module (menu.js): Create a module for the restaurant's menu. The module should include the following:
+
+Define a class MenuItem with attributes: name, price, and description.
+Create an array of MenuItem instances to represent the menu items.
+Implement a method to add a new menu item to the array.
+Implement a method to get the list of all menu items.
+Order Module (order.js): Create a module to handle customer orders. The module should have the following functions:
+
+Create an array to store customer orders. Each order should contain the selected menu item, quantity, and a reference to the customer.
+Implement a function to take a new order by specifying the customer, menu item, and quantity.
+Implement a function to retrieve all orders.
+Implement a function to calculate the total bill for a specific customer's orders.
+Customer Module (customer.js): Create a module for customer information. The module should include:
+
+Define a class Customer with attributes: name, tableNumber, and a unique customerId.
+Implement a method to create a new customer and assign them a unique customerId.
+Main Application (main.js): Import and use the modules to:
+
+Create a menu with at least five menu items.
+Create at least three customers with unique IDs.
+Allow customers to place orders (select menu items and quantities).
+Display the list of all orders.
+Calculate and display the total bill for each customer.
+The code should be organized into separate modules for menu management, order handling, and customer information. The main application should import and use these modules to manage the restaurant's operations.
+
+This exercise combines the use of classes, arrays, closures, and modules to create a functional restaurant management system. You should provide the code to implement the requirements outlined above.
