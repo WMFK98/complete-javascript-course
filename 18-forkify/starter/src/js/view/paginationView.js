@@ -12,8 +12,10 @@ class PaginationView extends View {
       handler(goToPage);
     });
   }
+
   _gennerateMarkup() {
     const curPage = this._data.page;
+    console.log(this._data.page);
     const numPages = Math.ceil(
       this._data.results.length / this._data.resultsPerPage
     );

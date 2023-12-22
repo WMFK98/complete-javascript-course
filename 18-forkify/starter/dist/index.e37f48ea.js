@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"aD7Zm":[function(require,module,exports) {
+})({"kYpTN":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -227,9 +227,15 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
     var hostname = getHostname();
     var port = getPort();
     var protocol = HMR_SECURE || location.protocol == "https:" && !/localhost|127.0.0.1|0.0.0.0/.test(hostname) ? "wss" : "ws";
-    var ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/");
+    var ws;
+    try {
+        ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/");
+    } catch (err) {
+        if (err.message) console.error(err.message);
+        ws = {};
+    }
     // Web extension context
-    var extCtx = typeof chrome === "undefined" ? typeof browser === "undefined" ? null : browser : chrome;
+    var extCtx = typeof browser === "undefined" ? typeof chrome === "undefined" ? null : chrome : browser;
     // Safari doesn't support sourceURL in error stacks.
     // eval may also be disabled via CSP, so do a quick check.
     var supportsSourceURL = false;
@@ -293,7 +299,7 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
         }
     };
     ws.onerror = function(e) {
-        console.error(e.message);
+        if (e.message) console.error(e.message);
     };
     ws.onclose = function() {
         console.warn("[parcel] \uD83D\uDEA8 Connection to the HMR server was lost");
@@ -303,7 +309,7 @@ function removeErrorOverlay() {
     var overlay = document.getElementById(OVERLAY_ID);
     if (overlay) {
         overlay.remove();
-        console.log("[parcel] ✨ Error resolved");
+        console.log("[parcel] \u2728 Error resolved");
     }
 }
 function createErrorOverlay(diagnostics) {
@@ -319,13 +325,13 @@ ${frame.code}`;
         errorHTML += `
       <div>
         <div style="font-size: 18px; font-weight: bold; margin-top: 20px;">
-          🚨 ${diagnostic.message}
+          \u{1F6A8} ${diagnostic.message}
         </div>
         <pre>${stack}</pre>
         <div>
           ${diagnostic.hints.map((hint)=>"<div>\uD83D\uDCA1 " + hint + "</div>").join("")}
         </div>
-        ${diagnostic.documentation ? `<div>📝 <a style="color: violet" href="${diagnostic.documentation}" target="_blank">Learn more</a></div>` : ""}
+        ${diagnostic.documentation ? `<div>\u{1F4DD} <a style="color: violet" href="${diagnostic.documentation}" target="_blank">Learn more</a></div>` : ""}
       </div>
     `;
     }
@@ -421,15 +427,10 @@ async function hmrApplyUpdates(assets) {
             let promises = assets.map((asset)=>{
                 var _hmrDownload;
                 return (_hmrDownload = hmrDownload(asset)) === null || _hmrDownload === void 0 ? void 0 : _hmrDownload.catch((err)=>{
-                    // Web extension bugfix for Chromium
-                    // https://bugs.chromium.org/p/chromium/issues/detail?id=1255412#c12
-                    if (extCtx && extCtx.runtime && extCtx.runtime.getManifest().manifest_version == 3) {
-                        if (typeof ServiceWorkerGlobalScope != "undefined" && global instanceof ServiceWorkerGlobalScope) {
-                            extCtx.runtime.reload();
-                            return;
-                        }
-                        asset.url = extCtx.runtime.getURL("/__parcel_hmr_proxy__?url=" + encodeURIComponent(asset.url + "?t=" + Date.now()));
-                        return hmrDownload(asset);
+                    // Web extension fix
+                    if (extCtx && extCtx.runtime && extCtx.runtime.getManifest().manifest_version == 3 && typeof ServiceWorkerGlobalScope != "undefined" && global instanceof ServiceWorkerGlobalScope) {
+                        extCtx.runtime.reload();
+                        return;
                     }
                     throw err;
                 });
@@ -591,23 +592,27 @@ var _searchViewJs = require("./view/searchView.js");
 var _searchViewJsDefault = parcelHelpers.interopDefault(_searchViewJs);
 var _resultsViewJs = require("./view/resultsView.js");
 var _resultsViewJsDefault = parcelHelpers.interopDefault(_resultsViewJs);
+var _bookmarksViewJs = require("./view/bookmarksView.js");
+var _bookmarksViewJsDefault = parcelHelpers.interopDefault(_bookmarksViewJs);
 var _paginationViewJs = require("./view/paginationView.js");
 var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
+var _addRecipeViewJs = require("./view/addRecipeView.js");
+var _addRecipeViewJsDefault = parcelHelpers.interopDefault(_addRecipeViewJs);
 var _regeneratorRuntime = require("regenerator-runtime");
 const recipeContainer = document.querySelector(".recipe");
 // https://forkify-api.herokuapp.com/v2
 ///////////////////////////////////////
-// if (module.hot) {
-//   module.hot.accept(); // สิ่งนี้จะช่วยให้เมื่อมีการแก้ไขตัวของ parcel ทำให้ไม่ต้องหลบหน้าใหม่ทุกครั้ง
-// }
+if (module.hot) module.hot.accept(); // สิ่งนี้จะช่วยให้เมื่อมีการแก้ไขตัวของ parcel ทำให้ไม่ต้องหลบหน้าใหม่ทุกครั้ง
 const controlRecipe = async function() {
     try {
         const id = window.location.hash.slice(1); // เอาค่าของ hash ซึ่งคือถ้า /#...
         if (!id) return;
         (0, _recipeViewJsDefault.default).renderSpinner(); //เอาไว้ทำระหว่างรอโหลด
+        //0)update results view mark
+        (0, _resultsViewJsDefault.default).update(_modelJs.getSearchResultsPage());
+        (0, _bookmarksViewJsDefault.default).update(_modelJs.state.bookmarks); // เมื่อทำการโหลดตัวใหม่ก็ต้องย้าย hover ใน bookmarkด้วย
         //1) Loading recipe
         await _modelJs.loadRecipe(id);
-        // const { recipe } = model.state;
         //2) Rendering recipe
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe); // ส่งค่าให้ data
     // const recipeView = new recipeView(model.state.recipe) // ความหมายเดียวกันกับตัวบนก็คือเอาไปสร้างอ๊อฟเจ็กในที่นี้
@@ -630,20 +635,45 @@ const controlSearchResults = async function() {
         console.log(err);
     }
 };
+const controlServings = function(newServings) {
+    _modelJs.updateServings(newServings);
+    (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
+// recipeView.render(model.state.recipe); // ที่เราไม่แ ใช้หน้านี้เพราะเราไม่ต้องการให้มันอัพเดทใหม่ทั้งหมดแต่ต้องการเฉพาะเจาะจง
+//ไม่ใช่ตอนนี้เพราะว่าเราไม่ได้ต้องการจะต้องให้มันโหลดใหม่ตลอดเราแค่ต้องการให้มันเปลี่ยนตัวหนังสือ;
+};
+const controlAddBookmark = function() {
+    //1) add/remove bookmark
+    const isBookmarked = _modelJs.state.recipe.bookmarked;
+    if (isBookmarked) _modelJs.deleteBookmark(_modelJs.state.recipe.id); // รับข้าเป็น id
+    else _modelJs.addBookmark(_modelJs.state.recipe); //รับข้าเป็น recipe
+    console.log(_modelJs.state.recipe);
+    //2) update bookmarks
+    (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
+    //3)Render Bookmarks
+    (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
+};
 const controllerPagination = function(goToPage) {
     (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPage(goToPage)); // โหลดตัวผลลัพธ์ใหม่
     (0, _paginationViewJsDefault.default).render(_modelJs.state.search); // โหลดตัวปุ่มใหม่
 };
 // สิ่งที่จะทำงานเมื่อเริ่มต้น controller
+const controllerBookmark = function() {
+    (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
+};
 const init = function() {
     // เอาไว้จัดการ addlisterner
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipe);
+    (0, _bookmarksViewJsDefault.default).addHandlerRender(controllerBookmark);
+    // addRecipeView.addHandlerShowWindow();
+    //เนื่องจากมีบัคตรงอับเดตที่ตอนแรกมันไม่เจอ bookmark เราแต่เสือกไปเปรียบเทียบตัวเก่าที่เป็นค่าว่างเลยทำให้เราหาข้อมูลนั้นไม่เจอมางออกเดียวคือเราต้องสั่งให้ตัวเรื่นมันทำงานมาก่อน ผ่าน window.docment("load") หมายความว่าทุกครั้งที่โหลดหน้านี้ให้
+    (0, _recipeViewJsDefault.default).addHandlerUpdateServings(controlServings);
     (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
     (0, _paginationViewJsDefault.default).addHandlerClick(controllerPagination);
+    (0, _recipeViewJsDefault.default).addHandlerBookmark(controlAddBookmark);
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21","./view/recipeView.js":"7Olh7","./view/searchView.js":"blwqv","./view/resultsView.js":"46Nfk","regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./view/paginationView.js":"9Reww"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21","./view/recipeView.js":"7Olh7","./view/searchView.js":"blwqv","./view/resultsView.js":"46Nfk","./view/bookmarksView.js":"uOrlR","./view/paginationView.js":"9Reww","regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./view/addRecipeView.js":"bxpSm"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -872,7 +902,7 @@ var $TypeError = TypeError;
 // `RequireObjectCoercible` abstract operation
 // https://tc39.es/ecma262/#sec-requireobjectcoercible
 module.exports = function(it) {
-    if (isNullOrUndefined(it)) throw $TypeError("Can't call method on " + it);
+    if (isNullOrUndefined(it)) throw new $TypeError("Can't call method on " + it);
     return it;
 };
 
@@ -915,7 +945,7 @@ module.exports = function(input, pref) {
         if (pref === undefined) pref = "default";
         result = call(exoticToPrim, input, pref);
         if (!isObject(result) || isSymbol(result)) return result;
-        throw $TypeError("Can't convert object to primitive value");
+        throw new $TypeError("Can't convert object to primitive value");
     }
     if (pref === undefined) pref = "number";
     return ordinaryToPrimitive(input, pref);
@@ -1056,7 +1086,7 @@ var $TypeError = TypeError;
 // `Assert: IsCallable(argument) is true`
 module.exports = function(argument) {
     if (isCallable(argument)) return argument;
-    throw $TypeError(tryToString(argument) + " is not a function");
+    throw new $TypeError(tryToString(argument) + " is not a function");
 };
 
 },{"4094667126ecac05":"l3Kyn","fce2a7573db493fa":"4O7d7"}],"4O7d7":[function(require,module,exports) {
@@ -1083,7 +1113,7 @@ module.exports = function(input, pref) {
     if (pref === "string" && isCallable(fn = input.toString) && !isObject(val = call(fn, input))) return val;
     if (isCallable(fn = input.valueOf) && !isObject(val = call(fn, input))) return val;
     if (pref !== "string" && isCallable(fn = input.toString) && !isObject(val = call(fn, input))) return val;
-    throw $TypeError("Can't convert object to primitive value");
+    throw new $TypeError("Can't convert object to primitive value");
 };
 
 },{"abe9ca006f56626e":"d7JlP","c96b3a89fec6248a":"l3Kyn","551615fda0214f1b":"Z0pBo"}],"gTwyA":[function(require,module,exports) {
@@ -1109,10 +1139,10 @@ var store = require("84eeed9891aafe14");
 (module.exports = function(key, value) {
     return store[key] || (store[key] = value !== undefined ? value : {});
 })("versions", []).push({
-    version: "3.32.2",
+    version: "3.33.2",
     mode: IS_PURE ? "pure" : "global",
     copyright: "\xa9 2014-2023 Denis Pushkarev (zloirock.ru)",
-    license: "https://github.com/zloirock/core-js/blob/v3.32.2/LICENSE",
+    license: "https://github.com/zloirock/core-js/blob/v3.33.2/LICENSE",
     source: "https://github.com/zloirock/core-js"
 });
 
@@ -1256,7 +1286,7 @@ exports.f = DESCRIPTORS ? V8_PROTOTYPE_DEFINE_BUG ? function defineProperty(O, P
     if (IE8_DOM_DEFINE) try {
         return $defineProperty(O, P, Attributes);
     } catch (error) {}
-    if ("get" in Attributes || "set" in Attributes) throw $TypeError("Accessors not supported");
+    if ("get" in Attributes || "set" in Attributes) throw new $TypeError("Accessors not supported");
     if ("value" in Attributes) O[P] = Attributes.value;
     return O;
 };
@@ -1283,7 +1313,7 @@ var $TypeError = TypeError;
 // `Assert: Type(argument) is Object`
 module.exports = function(argument) {
     if (isObject(argument)) return argument;
-    throw $TypeError($String(argument) + " is not an object");
+    throw new $TypeError($String(argument) + " is not an object");
 };
 
 },{"2b6c6258a0a6082f":"Z0pBo"}],"6XwEX":[function(require,module,exports) {
@@ -1420,7 +1450,7 @@ var enforce = function(it) {
 var getterFor = function(TYPE) {
     return function(it) {
         var state;
-        if (!isObject(it) || (state = get(it)).type !== TYPE) throw TypeError("Incompatible receiver, " + TYPE + " required");
+        if (!isObject(it) || (state = get(it)).type !== TYPE) throw new TypeError("Incompatible receiver, " + TYPE + " required");
         return state;
     };
 };
@@ -1430,7 +1460,7 @@ if (NATIVE_WEAK_MAP || shared.state) {
     store.has = store.has;
     store.set = store.set;
     /* eslint-enable no-self-assign -- prototype methods protection */ set = function(it, metadata) {
-        if (store.has(it)) throw TypeError(OBJECT_ALREADY_INITIALIZED);
+        if (store.has(it)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
         metadata.facade = it;
         store.set(it, metadata);
         return metadata;
@@ -1445,7 +1475,7 @@ if (NATIVE_WEAK_MAP || shared.state) {
     var STATE = sharedKey("state");
     hiddenKeys[STATE] = true;
     set = function(it, metadata) {
-        if (hasOwn(it, STATE)) throw TypeError(OBJECT_ALREADY_INITIALIZED);
+        if (hasOwn(it, STATE)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
         metadata.facade = it;
         createNonEnumerableProperty(it, STATE, metadata);
         return metadata;
@@ -1818,7 +1848,7 @@ module.exports = uncurryThis([].slice);
 "use strict";
 var $TypeError = TypeError;
 module.exports = function(passed, required) {
-    if (passed < required) throw $TypeError("Not enough arguments");
+    if (passed < required) throw new $TypeError("Not enough arguments");
     return passed;
 };
 
@@ -2479,6 +2509,9 @@ parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
+parcelHelpers.export(exports, "updateServings", ()=>updateServings);
+parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
+parcelHelpers.export(exports, "deleteBookmark", ()=>deleteBookmark);
 var _regeneratorRuntime = require("regenerator-runtime");
 var _config = require("./config");
 var _helpers = require("./helpers");
@@ -2490,7 +2523,8 @@ const state = {
         results: [],
         resultsPerPage: (0, _config.RES_PER_PAGE),
         page: 1
-    }
+    },
+    bookmarks: []
 };
 const loadRecipe = async function(id) {
     try {
@@ -2506,6 +2540,9 @@ const loadRecipe = async function(id) {
             ingredients: recipe.ingredients,
             image: recipe.image_url
         };
+        // สำหรับเช็ค bookmark ที่เก็บในอาลีเก่าของเราว่ามีตัวที่เจอไหมถ้าเจอจะให้หน้านั้นที่ดาวน์โหลดมาแสดงบุ๊คมาร์คตัวเดิม
+        if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarked = true;
+        else state.recipe.bookmarked = false;
     // console.log(state.recipe);
     } catch (err) {
         console.error(err);
@@ -2525,6 +2562,7 @@ const loadSearchResults = async function(query) {
                 image: rec.image_url
             };
         });
+        state.search.page = 1;
     } catch (err) {}
 };
 const getSearchResultsPage = function(page = state.search.page) {
@@ -2534,7 +2572,36 @@ const getSearchResultsPage = function(page = state.search.page) {
     const end = page * state.search.resultsPerPage;
     return state.search.results.slice(start, end); //0-10 แต่จริงๆคือเอาตัวที่ 0-9 เพราะ 10 ที่เราเขียนวันหมายถึงจุด ก่อนหน้า 10
 };
-loadSearchResults("pizza");
+const updateServings = function(newServings) {
+    //เอาไว้สำหรับ เราอยากเพิ่มจำนวนการ เสิร์ฟอาหาร
+    state.recipe.ingredients.forEach((ing)=>{
+        ing.quantity = ing.quantity * newServings / state.recipe.servings;
+    });
+    state.recipe.servings = newServings;
+};
+const persistBookmarks = function() {
+    //บันทึกข้อมูลลง loclStorage
+    localStorage.setItem("bookmark", JSON.stringify(state.bookmarks));
+};
+const addBookmark = function(recipe) {
+    state.bookmarks.push(recipe);
+    //mask current recipe as bookmarked
+    if (recipe.id = state.recipe.id) state.recipe.bookmarked = true;
+    persistBookmarks(); //เรียกบันทึกข้อมูลลง loclStorage
+};
+const deleteBookmark = function(id) {
+    //delete bookmark
+    const index = state.bookmarks.findIndex((el)=>el.id === id);
+    state.bookmarks.splice(index, 1);
+    //Mark current recipe as NOT bookmarked
+    if (id === state.recipe.id) state.recipe.bookmarked = false;
+    persistBookmarks();
+};
+const init = function() {
+    const storage = localStorage.getItem("bookmark");
+    if (storage) state.bookmarks = JSON.parse(storage);
+};
+init(); // loadSearchResults('pizza');
 
 },{"regenerator-runtime":"dXNgZ","./config":"k5Hzs","./helpers":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
 //ไฟล์นี้เอาไว้เก็บค่าตัวแปลคงที่มีส่วนสำคัญในการกำหนดข้อมูลเกี่ยวกับแอพพลิเคชั่นนี้ซึ่งไม่ใช่ทุกตัวไปก็ต้องถูก
@@ -2626,6 +2693,23 @@ class RecipeView extends (0, _viewDefault.default) {
             "load"
         ].forEach((ev)=>window.addEventListener(ev, handler));
     }
+    addHandlerBookmark(handler) {
+        this._parentEl.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--bookmark");
+            if (!btn) return;
+            handler();
+        });
+    }
+    addHandlerUpdateServings(handler) {
+        // ฟังก์ชันปุ่ม + ลบ เสิร์ฟอาหาร
+        this._parentEl.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--update-servings");
+            if (!btn) return;
+            console.log(btn);
+            const { updateTo } = btn.dataset;
+            if (+updateTo > 0) handler(+updateTo);
+        });
+    }
     _gernerateMarkupIngredient(ing) {
         return `
   <li class="recipe__ingredient">
@@ -2665,12 +2749,14 @@ class RecipeView extends (0, _viewDefault.default) {
             <span class="recipe__info-text">servings</span>
 
             <div class="recipe__info-buttons">
-              <button class="btn--tiny btn--increase-servings">
+              <button class="btn--tiny btn--update-servings" 
+              data-update-to="${this._data.servings - 1}">
                 <svg>
                   <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
                 </svg>
               </button>
-              <button class="btn--tiny btn--increase-servings">
+              <button class="btn--tiny btn--update-servings data-update="
+              data-update-to="${this._data.servings + 1}">
                 <svg>
                   <use href="${0, _iconsSvgDefault.default}#icon-plus-circle"></use>
                 </svg>
@@ -2681,9 +2767,9 @@ class RecipeView extends (0, _viewDefault.default) {
           <div class="recipe__user-generated">
       
           </div>
-          <button class="btn--round">
+          <button class="btn--round btn--bookmark">
             <svg class="">
-              <use href="${0, _iconsSvgDefault.default}#icon-bookmark-fill"></use>
+              <use href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? "-fill" : ""}"></use>
             </svg>
           </button>
         </div>
@@ -2727,13 +2813,35 @@ var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class View {
     // เป็นตัวกลางที่ให้ view ทุกตัวสามารถใช้ฟังก์ชันในนี้ได้เป็นตัวไว้สำหรับสืบทอด
     _data;
-    render(data) {
+    render(data, render = true) {
+        console.log(this._parentEl);
         if (!data || data?.length === 0) return this.renderError();
         console.log(data);
+        // console.log(data);
         this._data = data;
         const markup = this._gennerateMarkup();
+        if (!render) return markup; //หาก render เป็น false มันขะไม่รัน markup แต่ส่งเป็น text แทน
         this._clear();
         this._parentEl.insertAdjacentHTML("afterbegin", markup);
+    }
+    update(data) {
+        this._data = data;
+        const newMarkup = this._gennerateMarkup();
+        const newDOM = document.createRange().createContextualFragment(newMarkup); // แปลง string html เป็น obj
+        const newElement = Array.from(newDOM.querySelectorAll("*")); // ตัใหม่ที่ถูกเปลี่ยน
+        const curElements = Array.from(this._parentEl.querySelectorAll("*"));
+        // console.log(curElements);
+        // console.log(newElement);
+        newElement.forEach((newEl, i)=>{
+            const curEl = curElements[i];
+            // console.log(curEl, newEl.isEqualNode(curEl), newEl); // เป็นตัวเอาไว้เทียบตัวเก่ากับตัวใหม่ว่ามีแท็กไหนบ้างที่ เหมือนกัน
+            //updates changed TEXT
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim()) curEl.textContent = newEl.textContent; // ทำแบบนี้ไม่ได้เพราะมันจะไปแทนที่boxใหญ่ด้วย ที่ไม่ใช่แค่ tag ที่ข้างในเป็นตัวหนังสือ
+            if (!newEl.isEqualNode(curEl)) // console.log(Array.from(newEl.attributes)); // เราจะได้ลิสต์ของทุกตัวมาที่ตรงเงื่อนไข if
+            Array.from(newEl.attributes).forEach((attr)=>curEl.setAttribute(attr.name, attr.value) // บอก key และ value ที่ต้องการเปลี่ยน
+            );
+        });
+    //updates changed ATTIBUTE
     }
     _clear() {
         this._parentEl.innerHTML = "";
@@ -3099,33 +3207,65 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");
 var _viewDefault = parcelHelpers.interopDefault(_view);
-var _iconsSvg = require("url:../../img/icons.svg");
-var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+var _previewView = require("./previewView");
+var _previewViewDefault = parcelHelpers.interopDefault(_previewView);
 class ResultsView extends (0, _viewDefault.default) {
     _parentEl = document.querySelector(".results");
     _errorMessage = `No recipes found for your query! Please try again i kak ;)`;
-    _gennerateMarkup(data) {
-        return this._data.map(this._gennerateMarkupPreview).join("");
-    }
-    _gennerateMarkupPreview(data) {
-        return `
-    <li class="preview">
-    <a class="preview__link" href="#${data.id}">
-      <figure class="preview__fig">
-        <img src="${data.image}" alt="${data.title}" />
-      </figure>
-      <div class="preview__data">
-        <h4 class="preview__title">${data.title}</h4>
-        <p class="preview__publisher">${data.publisher}</p>
-      </div>
-    </a>
-  </li>
-    `;
+    _gennerateMarkup() {
+        return this._data.map((bookmark)=>(0, _previewViewDefault.default).render(bookmark, false)).join("");
     }
 }
 exports.default = new ResultsView();
 
-},{"./View":"gAkKI","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9Reww":[function(require,module,exports) {
+},{"./View":"gAkKI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./previewView":"8eAfY"}],"8eAfY":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+class PreviewView extends (0, _viewDefault.default) {
+    // เป็นเหมือนตัวประกอบที่เอาไว้ใช้ใน results กับ bookmark
+    _parentEl = "";
+    _gennerateMarkup() {
+        const id = window.location.hash.slice(1); // เอา "#" ออก //
+        return `
+        <li class="preview">
+        <a class="preview__link ${this._data.id === id ? "preview__link--active" : "" // เปลี่ยนเพิ่มเอฟเฟคให้กับเมนูที่เรา select ให้เป็นแปลก hover ค้าง
+        }" href="#${this._data.id}">
+          <figure class="preview__fig">
+            <img src="${this._data.image}" alt="${this._data.title}" />
+          </figure>
+          <div class="preview__data">
+            <h4 class="preview__title">${this._data.title}</h4>
+            <p class="preview__publisher">${this._data.publisher}</p>
+          </div>
+        </a>
+      </li>
+        `;
+    }
+}
+exports.default = new PreviewView();
+
+},{"./View":"gAkKI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"uOrlR":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+var _previewView = require("./previewView");
+var _previewViewDefault = parcelHelpers.interopDefault(_previewView);
+class BookmarkView extends (0, _viewDefault.default) {
+    _parentEl = document.querySelector(".bookmarks__list");
+    _errorMessage = `No bookmark yet. Find a nice recipe and bookmark it ;)`;
+    addHandlerRender(handler) {
+        window.addEventListener("load", handler);
+    }
+    _gennerateMarkup() {
+        return this._data.map((bookmark)=>(0, _previewViewDefault.default).render(bookmark, false)).join("");
+    }
+}
+exports.default = new BookmarkView();
+
+},{"./View":"gAkKI","./previewView":"8eAfY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9Reww":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");
@@ -3144,6 +3284,7 @@ class PaginationView extends (0, _viewDefault.default) {
     }
     _gennerateMarkup() {
         const curPage = this._data.page;
+        console.log(this._data.page);
         const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
         console.log(numPages);
         // ไม่มีหน้าย้อนกลับ
@@ -3182,6 +3323,33 @@ class PaginationView extends (0, _viewDefault.default) {
 }
 exports.default = new PaginationView();
 
-},{"./View":"gAkKI","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aD7Zm","aenu9"], "aenu9", "parcelRequireb8ae")
+},{"./View":"gAkKI","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bxpSm":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+class AddRecipeView extends (0, _viewDefault.default) {
+    _parentEl = document.querySelector(".upload");
+    _window = document.querySelector(".add-recipe-window");
+    _overlay = document.querySelector(".overlay");
+    _btnOpen = document.querySelector(".nav__btn--add-recipe");
+    _btnClose = document.querySelector(".btn--close-modal");
+    constructor(){
+        super();
+        this._addHandlerShowWindow();
+    }
+    toggleWindow() {
+        this._overlay.classList.toggle("hidden");
+        this._window.classList.toggle("hidden");
+    }
+    _addHandlerShowWindow() {
+        this._btnOpen.addEventListener("click", this.toggleWindow.bind(this));
+    }
+}
+exports.default = new AddRecipeView();
+
+},{"./View":"gAkKI","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["kYpTN","aenu9"], "aenu9", "parcelRequireb8ae")
 
 //# sourceMappingURL=index.e37f48ea.js.map
